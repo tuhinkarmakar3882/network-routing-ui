@@ -2,12 +2,16 @@
     --primaryFont: 'Merriweather', serif;;
     --secondaryFont: 'Montserrat', sans-serif;
     --primaryCustom: #BF2753;
-    --secondary: #EAE1CB;
+    --secondaryCustom: #EAE1CB;
     --accent: #617873;
     --complement: #BE8083;
     --darkTone: #CE9B7E;
     --white: #FFFFFF;
     --black: #000000;
+}
+
+body {
+    background: var(--secondaryCustom);
 }
 
 .card {
@@ -21,4 +25,24 @@
     font-family: var(--primaryFont);
     font-weight: 400;
     letter-spacing: 1px;
+}
+
+.titleText {
+    font-family: var(--secondaryFont);
+    letter-spacing: 1px;
+    font-size: 32px;
+    line-height: 40px;
+    position: relative;
+    text-align: center;
+    margin: 32px 0;
+}
+
+.titleText::after {
+    content: '';
+    width: 50%;
+    height: 1px;
+    position: absolute;
+    bottom: -12px;
+    left: 25%;
+    background: var(--primaryCustom);
 }
