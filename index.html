@@ -6,26 +6,68 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, shrink-to-fit=no">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Network Routing Visualizer</title>
-    <link rel="stylesheet" href="css/normalize.css">
-    <link rel="stylesheet" href="css/visualizer.css">
-    <script src="js/visualizer.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;1,300;1,400&family=Montserrat:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&display=swap"
+          media="print" onload="this.media='all'" rel="stylesheet">
+    <link crossorigin="anonymous" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+          integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" media="print"
+          onload="this.media='all'" rel="stylesheet">
+    <link href="css/visualizer.css" media="print" onload="this.media='all'" rel="stylesheet">
+    <script async defer src="js/visualizer.js"></script>
 </head>
 <body>
 <div class="bodyWrapper">
-    <h1 class="headingText">This is a Network Visualizer</h1>
-    <div class="dashboard">
-        <div class="card">
-            <div class="cardHead">
-                <h2 class="cardTitle">Create Nodes</h2>
+    <h1 class=" text-center my-4 text-primary">Network Routing Visualizer</h1>
+
+    <div class="container-fluid">
+        <div class="row justify-content-center align-items-center">
+            <div class="col-lg-3 col-md-5 col-sm-9 col-11 my-2">
+                <div class="card shadow">
+                    <div class="card-header">
+                        <p class="lead text-center mb-0">Create Nodes</p>
+                    </div>
+                    <div class="card-body ">
+
+                        <label class="mb-3 lead" for="nodeInput">How Many Nodes?</label>
+                        <input class="form-control mb-3" id="nodeInput" type="text">
+                    </div>
+                    <div class="card-footer text-center">
+                        <button class="btn btn-light " type="button">Create now!</button>
+                    </div>
+                </div>
             </div>
-            <div class="cardBody">
-                <label for="createNodeInput">Enter the Number of Nodes</label>
-                <input id="createNodeInput" type="text">
+            <div class="col-lg-3 col-md-5 col-sm-9 col-11 my-2">
+                <div class="card shadow">
+                    <div class="card-header">
+                        <p class="lead text-center mb-0">Discover Route</p>
+                    </div>
+                    <div class="card-body ">
+                        <label class="mb-3 lead" for="source">Source Node Number:</label>
+                        <input class="form-control mb-3" id="source" type="text">
+                        <label class="mb-3 lead" for="destination">Destination Node Number :</label>
+                        <input class="form-control mb-3" id="destination" type="text">
+                    </div>
+                    <div class="card-footer text-center">
+                        <button class="btn btn-light " type="button">Perform Discovery!</button>
+                    </div>
+                </div>
             </div>
-            <div class="cardFooter">
-                <button class="cardButton">Create Nodes!</button>
+            <div class="col-lg-3 col-md-5 col-sm-9 col-11 my-2">
+                <div class="card shadow">
+                    <div class="card-header">
+                        <p class="lead text-center mb-0">Path Generation</p>
+                    </div>
+                    <div class="card-body ">
+                        <p class="lead">Randomly Generate Path between Nodes.</p>
+                    </div>
+                    <div class="card-footer text-center">
+                        <button class="btn btn-light " type="button">Generate now!</button>
+                    </div>
+                </div>
             </div>
+
         </div>
+
+
     </div>
 </div>
 </body>

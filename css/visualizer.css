@@ -1,11 +1,24 @@
 :root {
-    --primaryFont: 'Playfair Display', serif;
+    --primaryFont: 'Merriweather', serif;;
     --secondaryFont: 'Montserrat', sans-serif;
-    --primary: #BF2753;
+    --primaryCustom: #BF2753;
     --secondary: #EAE1CB;
     --accent: #617873;
     --complement: #BE8083;
     --darkTone: #CE9B7E;
     --white: #FFFFFF;
-    --dark: #000000;
+    --black: #000000;
+}
+
+.card {
+    background: var(--primaryCustom);
+    color: var(--white);
+    border-radius: 15px;
+    height: 350px;
+}
+
+.card-title {
+    font-family: var(--primaryFont);
+    font-weight: 400;
+    letter-spacing: 1px;
 }
