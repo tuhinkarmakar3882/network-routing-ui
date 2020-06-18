@@ -1,6 +1,7 @@
 :root {
-    --primaryFont: 'Merriweather', serif;;
-    --secondaryFont: 'Montserrat', sans-serif;
+    --sans-Serif: 'Open Sans', sans-serif;
+    --condensed: 'Open Sans Condensed', sans-serif;
+    --serif: 'Source Serif Pro', serif;
     --primaryCustom: #BF2753;
     --secondaryCustom: #EAE1CB;
     --accent: #617873;
@@ -19,16 +20,20 @@ body {
     color: var(--white);
     border-radius: 15px;
     height: 350px;
+    font-family: var(--sans-Serif);
+
+    /*letter-spacing: 4px;*/
 }
 
-.card-title {
-    font-family: var(--primaryFont);
-    font-weight: 400;
+.card-header {
+    font-family: var(--condensed);
+    font-weight: 700;
     letter-spacing: 1px;
+    font-size: 24px;
 }
 
 .titleText {
-    font-family: var(--secondaryFont);
+    font-family: var(--condensed);
     letter-spacing: 1px;
     font-size: 32px;
     line-height: 40px;

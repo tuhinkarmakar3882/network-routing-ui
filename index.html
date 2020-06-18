@@ -6,12 +6,16 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, shrink-to-fit=no">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Network Routing Visualizer</title>
-    <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;1,300;1,400&family=Montserrat:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&display=swap"
-          media="print" onload="this.media='all'" rel="stylesheet">
+    <link href="css/normalize.css" rel="stylesheet">
+
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans+Condensed:wght@300;700&family=Open+Sans:ital,wght@0,300;0,400;1,300;1,400&family=Source+Serif+Pro:wght@400;600&display=swap"
+          rel="stylesheet">
+
     <link crossorigin="anonymous" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
-          integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" media="print"
-          onload="this.media='all'" rel="stylesheet">
-    <link href="css/visualizer.css" media="print" onload="this.media='all'" rel="stylesheet">
+          integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" rel="stylesheet">
+
+    <link href="css/visualizer.css" rel="stylesheet">
+
     <script async defer src="js/visualizer.js"></script>
 </head>
 <body>
@@ -23,12 +27,13 @@
             <div class="col-lg-3 col-md-5 col-sm-9 col-11 my-2">
                 <div class="card shadow">
                     <div class="card-header">
-                        <p class="lead text-center mb-0">Create Nodes</p>
+                        <p class="text-center mb-0">Create Nodes</p>
                     </div>
                     <div class="card-body ">
 
                         <label class="mb-3 lead" for="nodeInput">How Many Nodes?</label>
                         <input class="form-control mb-3" id="nodeInput" type="text">
+                        <p class="lead">This will create nodes with random Values</p>
                     </div>
                     <div class="card-footer text-center">
                         <button class="btn btn-light " type="button">Create now!</button>
@@ -38,7 +43,7 @@
             <div class="col-lg-3 col-md-5 col-sm-9 col-11 my-2">
                 <div class="card shadow">
                     <div class="card-header">
-                        <p class="lead text-center mb-0">Discover Route</p>
+                        <p class="text-center mb-0">Discover Route</p>
                     </div>
                     <div class="card-body ">
                         <label class="mb-3 lead" for="source">Source Node Number:</label>
@@ -54,10 +59,11 @@
             <div class="col-lg-3 col-md-5 col-sm-9 col-11 my-2">
                 <div class="card shadow">
                     <div class="card-header">
-                        <p class="lead text-center mb-0">Path Generation</p>
+                        <p class="text-center mb-0">Path Generation</p>
                     </div>
                     <div class="card-body ">
-                        <p class="lead">Randomly Generate Path between Nodes.</p>
+                        <p class="lead">This will Randomly Generate Path between Nodes.</p>
+                        <p class="lead">Then, You can Discover Paths & Send Data Packets</p>
                     </div>
                     <div class="card-footer text-center">
                         <button class="btn btn-light " type="button">Generate now!</button>
