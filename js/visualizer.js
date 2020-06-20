@@ -4,38 +4,38 @@ function createNodes() {
     let nodeInput = document.getElementById('nodeInput');
 
     $.get('http://localhost:8000/', {totalNodesRequired: nodeInput.value, maxX : window.innerWidth - offset , maxY : window.innerHeight - offset })
-        .done(response => {
-            let nodeData = response.NodeData;
-            stateNodeData = nodeData;
-            function draw() {
-                clear();
-                background(color(38,189,189));
-                drawNodes();
-            }
-            draw();
-        })
-        .fail(response => {
-            console.log(response.responseJSON);
-        });
+    .done(response => {
+        let nodeData = response.NodeData;
+        stateNodeData = nodeData;
+        function draw() {
+            clear();
+            background(color(38,189,189));
+            drawNodes();
+        }
+        draw();
+    })
+    .fail(response => {
+        console.log(response.responseJSON);
+    });
 }
 
 function generateTopology() {
     $.get('http://localhost:8000/generateTopology')
-            .done(response => {
-                let pathData = response.pathData;
-                statePathData = pathData;
-                function draw() {
-                    clear();
-                   background(color(38,189,189))
-                   drawTopology()
-                   drawNodes();
-               }
+    .done(response => {
+        let pathData = response.pathData;
+        statePathData = pathData;
+        function draw() {
+            clear();
+            background(color(38,189,189))
+            drawTopology()
+            drawNodes();
+        }
 
-                draw();
-            })
-            .fail(response => {
-                console.log(response.responseJSON);
-            });
+        draw();
+    })
+    .fail(response => {
+        console.log(response.responseJSON);
+    });
 }
 
 function setup() {
@@ -71,8 +71,7 @@ function drawTopology(){
 }
 
 function draw(){
-    if(realtimeMovementOn)
-    {
+    if(realtimeMovementOn) {
         realtimeMovement();
     }
 }
@@ -84,16 +83,16 @@ function realtimeMovement(){
         stateNodeData[data].xPos = stateNodeData[data].xPos + random(-15,15);
         stateNodeData[data].yPos = stateNodeData[data].yPos - random(-10,10);
 
-        if(stateNodeData[data].yPos < 0){
+        if(stateNodeData[data].yPos < 0) {
             stateNodeData[data].yPos = 0;
         }
-        if(stateNodeData[data].yPos > height){
+        if(stateNodeData[data].yPos > height) {
             stateNodeData[data].yPos = height;
         }
-        if(stateNodeData[data].xPos < 0){
+        if(stateNodeData[data].xPos < 0) {
             stateNodeData[data].xPos = 0;
         }
-        if(stateNodeData[data].xPos > width){
+        if(stateNodeData[data].xPos > width) {
             stateNodeData[data].xPos = width;
         }
     }
@@ -116,7 +115,7 @@ function turnOnAutomation() {
 }
 
 function turnOnRealtimeMovement() {
-     realtimeMovementOn = realtimeMovementOn ? false : true;
-     let realtimeMovementBtn = document.getElementById("realtimeMovementBtn")
-     realtimeMovementBtn.textContent = realtimeMovementOn ? "Turn Off Realtime Movement" : "Turn On Realtime Movement";
+   realtimeMovementOn = realtimeMovementOn ? false : true;
+   let realtimeMovementBtn = document.getElementById("realtimeMovementBtn")
+   realtimeMovementBtn.textContent = realtimeMovementOn ? "Turn Off Realtime Movement" : "Turn On Realtime Movement";
 }
