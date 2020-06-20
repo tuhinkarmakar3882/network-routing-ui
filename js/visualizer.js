@@ -1,4 +1,5 @@
-let stateNodeData, statePathData, automate = false, realtimeMovementOn = false, offset = 80;
+let stateNodeData, statePathData, discoverRouteData;
+let automate = false, realtimeMovementOn = false, offset = 80;
 
 function createNodes() {
     let nodeInput = document.getElementById('nodeInput');
@@ -42,7 +43,7 @@ function setup() {
     createCanvas(window.innerWidth - offset, window.innerHeight - offset);
 }
 
-function drawNodes(){
+function drawNodes() {
     radius = 30;
     for (let data in stateNodeData) {
         let xPos = stateNodeData[data].xPos;
@@ -57,7 +58,9 @@ function drawNodes(){
     }
 }
 
-function drawTopology(){
+function drawTopology() {
+    stroke(color(0,255,0))
+    strokeWeight(2)
     for (let data in statePathData) {
        let sourceId = statePathData[data].source;
        let destinationId = statePathData[data].destination;
@@ -65,7 +68,7 @@ function drawTopology(){
        let sourceYPos = stateNodeData[sourceId].yPos;
        let destinationXPos = stateNodeData[destinationId].xPos;
        let destinationYPos = stateNodeData[destinationId].yPos;
-       strokeWeight(2)
+
        line(sourceXPos,sourceYPos,destinationXPos,destinationYPos);
    }
 }
@@ -80,8 +83,8 @@ function realtimeMovement(){
     clear();
     background(color(38,189,189));
     for (let data in stateNodeData) {
-        stateNodeData[data].xPos = stateNodeData[data].xPos + random(-15,15);
-        stateNodeData[data].yPos = stateNodeData[data].yPos - random(-10,10);
+        stateNodeData[data].xPos = stateNodeData[data].xPos + random(-10,10);
+        stateNodeData[data].yPos = stateNodeData[data].yPos - random(-7,7);
 
         if(stateNodeData[data].yPos < 0) {
             stateNodeData[data].yPos = 0;
@@ -118,4 +121,42 @@ function turnOnRealtimeMovement() {
    realtimeMovementOn = realtimeMovementOn ? false : true;
    let realtimeMovementBtn = document.getElementById("realtimeMovementBtn")
    realtimeMovementBtn.textContent = realtimeMovementOn ? "Turn Off Realtime Movement" : "Turn On Realtime Movement";
+}
+
+
+function discoverRoute() {
+    let sourceNodeId = document.getElementById("source").value;
+    let destinationNodeId = document.getElementById("destination").value;
+
+    $.get('http://localhost:8000/discoverRoute', {source: sourceNodeId, destination: destinationNodeId })
+    .done(response => {
+        console.log(response)
+        discoverRouteData = response.RouteData;
+        function draw() {
+            clear();
+            background(color(38,189,189));
+            drawRoute();
+        }
+        draw();
+    })
+    .fail(response => {
+        console.log(response.responseJSON);
+    });
+}
+
+function drawRoute() {
+    drawTopology()
+    for (let data in discoverRouteData) {
+       let sourceId = discoverRouteData[data].source;
+       let destinationId = statePathData[data].destination;
+       let sourceXPos = stateNodeData[sourceId].xPos;
+       let sourceYPos = stateNodeData[sourceId].yPos;
+       let destinationXPos = stateNodeData[destinationId].xPos;
+       let destinationYPos = stateNodeData[destinationId].yPos;
+       strokeWeight(5);
+       stroke(color(0,255,0))
+       // fill();
+       line(sourceXPos,sourceYPos,destinationXPos,destinationYPos);
+   }
+   drawNodes()
 }
