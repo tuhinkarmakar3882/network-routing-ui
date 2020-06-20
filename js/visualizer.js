@@ -44,6 +44,7 @@ function setup() {
 }
 
 function drawNodes() {
+    strokeWeight(1)
     radius = 30;
     for (let data in stateNodeData) {
         let xPos = stateNodeData[data].xPos;
@@ -59,7 +60,7 @@ function drawNodes() {
 }
 
 function drawTopology() {
-    stroke(color(0,255,0))
+    stroke(color(0,0,0))
     strokeWeight(2)
     for (let data in statePathData) {
        let sourceId = statePathData[data].source;
