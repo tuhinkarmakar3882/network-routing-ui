@@ -1,4 +1,8 @@
-let stateNodeData, statePathData;
+let stateNodeData, statePathData, automate = false, realtimeMovementOn = false;
+
+window.onload = () => {
+    automatePaths()
+}
 
 function createNodes() {
     let nodeInput = document.getElementById('nodeInput');
@@ -39,7 +43,7 @@ function generateTopology() {
 }
 
 function setup() {
-    createCanvas(1500, 600);
+    createCanvas(1510, 750);
 }
 
 function drawNodes(){
@@ -70,12 +74,58 @@ function drawTopology(){
    }
 }
 
-//window.onload = () => {
-//     let nodeInput = document.getElementById('nodeInput');
-//     nodeInput.value = Math.random() * 10
-//
-//     createNodes();
-//     setInterval(()=>{
-//        generateTopology();
-//     },10000)
-//}
+function draw(){
+    if(realtimeMovementOn)
+    {
+        realtimeMovement();
+    }
+}
+
+function realtimeMovement(){
+    clear();
+    background(220);
+    for (let data in stateNodeData) {
+        stateNodeData[data].xPos = stateNodeData[data].xPos + random(-15,15);
+        stateNodeData[data].yPos = stateNodeData[data].yPos - random(-10,10);
+
+        if(stateNodeData[data].yPos < 0){
+            stateNodeData[data].yPos = 0;
+        }
+        if(stateNodeData[data].yPos > height){
+            stateNodeData[data].yPos = height;
+        }
+        if(stateNodeData[data].xPos < 0){
+            stateNodeData[data].xPos = 0;
+        }
+        if(stateNodeData[data].xPos > width){
+            stateNodeData[data].xPos = width;
+        }
+    }
+    drawTopology();
+    drawNodes();
+}
+
+
+function turnOnAutomation() {
+    automate = automate ? false : true;
+
+    console.log(automate);
+}
+
+function turnOnRealtimeMovement() {
+     realtimeMovementOn = realtimeMovementOn ? false : true;
+     let realtimeMovementBtn = document.getElementById("realtimeMovementBtn")
+     realtimeMovementBtn.textContent = realtimeMovementOn ? "Turn Off Realtime Movement" : "Turn On Realtime Movement";
+}
+
+function automatePaths(){
+    if(automate) {
+         let nodeInput = document.getElementById('nodeInput');
+         nodeInput.value = Math.random() * 10
+
+         createNodes();
+         setInterval(()=>{
+            generateTopology();
+         },10000)
+     }
+}
