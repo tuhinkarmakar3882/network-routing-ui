@@ -1,19 +1,15 @@
-let stateNodeData, statePathData, automate = false, realtimeMovementOn = false;
-
-window.onload = () => {
-    automatePaths()
-}
+let stateNodeData, statePathData, automate = false, realtimeMovementOn = false, offset = 80;
 
 function createNodes() {
     let nodeInput = document.getElementById('nodeInput');
 
-    $.get('http://localhost:8000/', {totalNodesRequired: nodeInput.value})
+    $.get('http://localhost:8000/', {totalNodesRequired: nodeInput.value, maxX : window.innerWidth - offset , maxY : window.innerHeight - offset })
         .done(response => {
             let nodeData = response.NodeData;
             stateNodeData = nodeData;
             function draw() {
                 clear();
-                background(220);
+                background(color(38,189,189));
                 drawNodes();
             }
             draw();
@@ -30,7 +26,7 @@ function generateTopology() {
                 statePathData = pathData;
                 function draw() {
                     clear();
-                   background(220)
+                   background(color(38,189,189))
                    drawTopology()
                    drawNodes();
                }
@@ -43,7 +39,7 @@ function generateTopology() {
 }
 
 function setup() {
-    createCanvas(1510, 750);
+    createCanvas(window.innerWidth - offset, window.innerHeight - offset);
 }
 
 function drawNodes(){
@@ -83,7 +79,7 @@ function draw(){
 
 function realtimeMovement(){
     clear();
-    background(220);
+    background(color(38,189,189));
     for (let data in stateNodeData) {
         stateNodeData[data].xPos = stateNodeData[data].xPos + random(-15,15);
         stateNodeData[data].yPos = stateNodeData[data].yPos - random(-10,10);
@@ -108,24 +104,19 @@ function realtimeMovement(){
 
 function turnOnAutomation() {
     automate = automate ? false : true;
-
-    console.log(automate);
+    let turnOnAutomateBtn= document.getElementById("turnOnAutomationBtn");
+    turnOnAutomateBtn.textContent = automate ? "Turn Off Automation" : "Turn On Automation";
+    let delay = 2000;
+    if(automate) {
+        automation = setInterval( () =>{ generateTopology(); },delay)
+    }
+    else {
+        clearInterval(automation);
+    }
 }
 
 function turnOnRealtimeMovement() {
      realtimeMovementOn = realtimeMovementOn ? false : true;
      let realtimeMovementBtn = document.getElementById("realtimeMovementBtn")
      realtimeMovementBtn.textContent = realtimeMovementOn ? "Turn Off Realtime Movement" : "Turn On Realtime Movement";
-}
-
-function automatePaths(){
-    if(automate) {
-         let nodeInput = document.getElementById('nodeInput');
-         nodeInput.value = Math.random() * 10
-
-         createNodes();
-         setInterval(()=>{
-            generateTopology();
-         },10000)
-     }
 }

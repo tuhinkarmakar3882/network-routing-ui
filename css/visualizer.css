@@ -19,7 +19,8 @@ body {
     background: var(--primaryCustom);
     color: var(--white);
     border-radius: 15px;
-    height: 350px;
+    min-height: 350px;
+    max-height: 400px;
     font-family: var(--sans-Serif);
 
     /*letter-spacing: 4px;*/
@@ -50,4 +51,14 @@ body {
     bottom: -12px;
     left: 25%;
     background: var(--primaryCustom);
+}
+
+#defaultCanvas0{
+    margin: 2rem;
+    box-shadow: 0 0 15px rgba(0,0,0,1);
+    background: rgb(38, 189, 189);
+}
+
+body{
+    overflow-x:hidden;
 }
