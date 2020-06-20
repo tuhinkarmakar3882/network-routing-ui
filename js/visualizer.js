@@ -45,6 +45,7 @@ function setup() {
 
 function drawNodes() {
     strokeWeight(1)
+    stroke(color(0,0,0))
     radius = 30;
     for (let data in stateNodeData) {
         let xPos = stateNodeData[data].xPos;
