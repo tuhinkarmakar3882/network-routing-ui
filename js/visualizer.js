@@ -1,4 +1,4 @@
-let peculiarData;
+let stateNodeData;
 
 function createNodes() {
     let nodeInput = document.getElementById('nodeInput');
@@ -24,41 +24,36 @@ function createNodes() {
             }
 
             draw();
-            peculiarData = nodeData;
+            stateNodeData = nodeData;
         })
         .fail(response => {
             console.log(response.responseJSON);
         });
 }
 
-let x, y;
+function generateTopology() {
+    $.get('http://localhost:8000/generateTopology')
+            .done(response => {
+                let pathData = response.pathData;
+                function draw() {
+                   for (let data in pathData) {
+                       let sourceId = pathData[data].source;
+                       let destinationId = pathData[data].destination;
+                       let sourceXPos = stateNodeData[sourceId].xPos;
+                       let sourceYPos = stateNodeData[sourceId].yPos;
+                       let destinationXPos = stateNodeData[destinationId].xPos;
+                       let destinationYPos = stateNodeData[destinationId].yPos;
+                       line(sourceXPos,sourceYPos,destinationXPos,destinationYPos);
+                   }
+               }
+
+                draw();
+            })
+            .fail(response => {
+                console.log(response.responseJSON);
+            });
+}
 
 function setup() {
     createCanvas(1350, 600);
-    x = width / 2;
-    y = height;
-}
-
-function draw() {
-    background(220);
-    radius = 30;
-    for (let data in peculiarData) {
-        let xPos = peculiarData[data].xPos;
-        let yPos = peculiarData[data].yPos;
-        let textData = peculiarData[data].text;
-        // peculiarData[data].xPos = peculiarData[data].xPos + (random(-3, 3));
-        // Moving up at a constant speed
-        // rect(xPos,yPos, yPos,xPos);
-        // peculiarData[data].yPos = peculiarData[data].yPos - (random(-3, 3));
-        fill(color(225, 225, 0));
-        circle(xPos, yPos, radius);
-        fill(color(0, 0, 0));
-        textSize(16);
-        textStyle(BOLD);
-        text(textData, xPos, yPos);
-        if (peculiarData[data].yPos < 0) {
-            peculiarData[data].yPos = height;
-        }
-    }
-
 }
