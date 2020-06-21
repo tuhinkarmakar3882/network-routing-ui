@@ -10,7 +10,7 @@ function createNodes() {
         stateNodeData = nodeData;
         function draw() {
             clear();
-            background(color(38,189,189));
+            background(color(31, 153, 153));
             drawNodes();
         }
         draw();
@@ -27,7 +27,7 @@ function generateTopology() {
         statePathData = pathData;
         function draw() {
             clear();
-            background(color(38,189,189))
+            background(color(31, 153, 153))
             drawTopology()
             drawNodes();
         }
@@ -45,27 +45,27 @@ function setup() {
 
 function drawNodes() {
     stroke(color(0,0,0))
-    noStroke()
+    
     radius = 30;
     for (let data in stateNodeData) {
+        strokeWeight(1);
         let xPos = stateNodeData[data].xPos;
         let yPos = stateNodeData[data].yPos;
         let textData = stateNodeData[data].text;
-        fill(color(245, 6, 128));
+        fill(color(196, 242, 127));
         circle(xPos, yPos, radius);
         fill(color(0, 0, 0));
+        strokeWeight(0);
         textSize(16);
         textStyle(BOLD);
         text(textData, xPos, yPos);
     }
 }
 
-function drawTopology() {
-    stroke(color(0,0,0))
-    
+function drawTopology() {   
     for (let data in statePathData) {
-       strokeWeight(2)
-       fill(color(60,60,60));
+       strokeWeight(1);
+       stroke(color(50, 50, 50));
     
        let sourceId = statePathData[data].source;
        let destinationId = statePathData[data].destination;
@@ -78,8 +78,8 @@ function drawTopology() {
        
        let textX = Math.abs((sourceXPos-destinationXPos))/2 + Math.min(sourceXPos, destinationXPos);
        let textY = Math.abs((sourceYPos-destinationYPos))/2 + Math.min(sourceYPos, destinationYPos);
+       
        textSize(18);
-       fill(color(0,0,0));
        strokeWeight(0);
        text(weightData,textX,textY);
    }
@@ -93,7 +93,7 @@ function draw(){
 
 function realtimeMovement(){
     clear();
-    background(color(38,189,189));
+    background(color(31, 153, 153));
     for (let data in stateNodeData) {
         stateNodeData[data].xPos = stateNodeData[data].xPos + random(-10,10);
         stateNodeData[data].yPos = stateNodeData[data].yPos - random(-7,7);
@@ -146,7 +146,7 @@ function discoverRoute() {
         discoverRouteData = response.RouteData;
         function draw() {
             clear();
-            background(color(38,189,189));
+            background(color(31, 153, 153));
             drawRoute();
         }
         draw();
