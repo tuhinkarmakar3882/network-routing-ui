@@ -1,4 +1,4 @@
-let stateNodeData, statePathData, discoverRouteData;
+let stateNodeData, statePathData, discoverRouteData, nodeNamesToId={}, idToNodeNames = {};
 let automate = false, realtimeMovementOn = false, offset = 80;
 
 function createNodes() {
@@ -8,6 +8,7 @@ function createNodes() {
     .done(response => {
         let nodeData = response.NodeData;
         stateNodeData = nodeData;
+
         function draw() {
             clear();
             background(color(31, 153, 153));
@@ -45,7 +46,8 @@ function setup() {
 
 function drawNodes() {
     stroke(color(0,0,0))
-    
+    nodeNamesToId = {}
+    idToNodeNames = {}
     radius = 30;
     for (let data in stateNodeData) {
         strokeWeight(1);
@@ -57,8 +59,11 @@ function drawNodes() {
         fill(color(0, 0, 0));
         strokeWeight(0);
         textSize(16);
+
         textStyle(BOLD);
         text(textData, xPos, yPos);
+        nodeNamesToId[textData] = stateNodeData[data].id;
+        idToNodeNames[stateNodeData[data].id] = textData
     }
 }
 
@@ -139,15 +144,18 @@ function turnOnRealtimeMovement() {
 function discoverRoute() {
     let sourceNodeId = document.getElementById("source").value;
     let destinationNodeId = document.getElementById("destination").value;
-
-    $.get('http://localhost:8000/discoverRoute', {source: sourceNodeId, destination: destinationNodeId })
+    console.log("discovering routes from", nodeNamesToId[sourceNodeId], "to", nodeNamesToId[destinationNodeId])
+    
+    $.get('http://localhost:8000/discoverRoute', {sourceId: nodeNamesToId[sourceNodeId], destinationId: nodeNamesToId[destinationNodeId] })
     .done(response => {
         console.log(response)
         discoverRouteData = response.RouteData;
         function draw() {
             clear();
             background(color(31, 153, 153));
+            drawTopology();
             drawRoute();
+            drawNodes();
         }
         draw();
     })
@@ -157,18 +165,21 @@ function discoverRoute() {
 }
 
 function drawRoute() {
-    drawTopology()
+
     for (let data in discoverRouteData) {
        let sourceId = discoverRouteData[data].source;
-       let destinationId = statePathData[data].destination;
+       let destinationId = discoverRouteData[data].destination;
        let sourceXPos = stateNodeData[sourceId].xPos;
        let sourceYPos = stateNodeData[sourceId].yPos;
        let destinationXPos = stateNodeData[destinationId].xPos;
        let destinationYPos = stateNodeData[destinationId].yPos;
+
        strokeWeight(5);
        stroke(color(0,255,0))
-       // fill();
+       console.log("Drawing Line =>", idToNodeNames[sourceId], idToNodeNames[destinationId])
+       // line(stateNodeData[sourceId].xPos, stateNodeData[sourceId].yPos, 
+              // stateNodeData[destinationId].xPos, stateNodeData[destinationId].yPos)
        line(sourceXPos,sourceYPos,destinationXPos,destinationYPos);
    }
-   drawNodes()
+   
 }
