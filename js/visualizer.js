@@ -1,6 +1,7 @@
 let stateNodeData, statePathData, discoverRouteData, nodeNamesToId = {}, idToNodeNames = {};
 let dynamicTopologyGenerationMode = false, realtimeMovementOn = false, offset = 80, dynamicTopologyGenerator;
 let topologyGenerationDelay = 2000;
+
 const bg = {
     red: 170,
     green: 170,
@@ -10,6 +11,11 @@ const highLightedRoute = {
     red: 4,
     green: 156,
     blue: 100,
+}
+const nodeFill = {
+    red: 196,
+    green: 242,
+    blue: 127,
 }
 
 function createNodes() {
@@ -65,7 +71,7 @@ function drawNodes() {
         let xPos = stateNodeData[data].xPos;
         let yPos = stateNodeData[data].yPos;
         let textData = stateNodeData[data].text;
-        fill(color(196, 242, 127));
+        fill(color(nodeFill.red, nodeFill.green, nodeFill.blue));
         circle(xPos, yPos, radius);
         fill(color(0, 0, 0));
         strokeWeight(0);
@@ -133,7 +139,7 @@ function realtimeMovement() {
 
 function toggleDynamicTopology() {
     dynamicTopologyGenerationMode = !dynamicTopologyGenerationMode;
-    let turnOnAutomateBtn = document.getElementById("turnOnAutomationBtn");
+    let turnOnAutomateBtn = document.getElementById("enableDynamicTopologyBtn");
     turnOnAutomateBtn.textContent = dynamicTopologyGenerationMode ? "Turn Off Dynamic Topology" : "Turn On Dynamic Topology";
     if (dynamicTopologyGenerationMode) {
         dynamicTopologyGenerator = setInterval(() => {
@@ -194,15 +200,6 @@ function drawRoute() {
 
 }
 
-window.onload = () => {
-    const footer = document.createElement('footer');
-    footer.classList = 'footer lead';
-    footer.innerHTML = `
-        &copy; Tuhin Karmakar
-        <br>
-        <small>
-        <a class="text-muted" href="#">Back To Top</a>
-        </small>
-    `
-    document.body.appendChild(footer)
+function startMessageListener() {
+    console.log("Set up backend.")
 }

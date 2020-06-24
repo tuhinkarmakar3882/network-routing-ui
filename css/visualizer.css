@@ -23,6 +23,11 @@
     text-align: center;
     margin: 32px 0;
 }
+.heading {
+    font-family: var(--condensed);
+    letter-spacing: 2px;
+    font-weight: 700;
+}
 
 .titleText::after {
     content: '';
@@ -62,5 +67,11 @@
     text-align: center;
     margin: 1rem;
     padding: 1rem;
+}
 
+.referenceText {
+    line-height: 32px;
+    letter-spacing: 1px;
+    text-align: justify;
+    color: #dadada;
 }

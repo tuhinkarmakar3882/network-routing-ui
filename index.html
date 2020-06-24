@@ -20,9 +20,10 @@
 
     <script src="js/jquery-3.5.1.min.js"></script>
     <script src="js/bootstrap.bundle.min.js"></script>
-    <script src="js/p5.min.js"></script>
+    <script src="js/p5.js"></script>
 
     <script defer src="js/visualizer.js"></script>
+    <script defer src="js/injector.js"></script>
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark ">
@@ -55,7 +56,7 @@
                 <a class="nav-link" href="#">Visualizer <span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">References</a>
+                <a class="nav-link" href="#referenceSection">References</a>
             </li>
         </ul>
     </div>
@@ -116,15 +117,31 @@
         </div>
     </div>
 </div>
+
 <h1 class="titleText">Additional Controls</h1>
-<div class="container d-flex justify-content-around align-items-center ">
-    <button class="btn customBtn" id="realtimeMovementBtn" onclick="enableRealtimeMovement()">Turn on Realtime
-        Movement
-    </button>
-    <button class="btn customBtn" id="turnOnAutomationBtn" onclick="toggleDynamicTopology()">Turn on Dynamic
-        Topology
-    </button>
+
+<div class="container">
+    <div class="row text-center justify-content-center align-items-center">
+        <div class="col-12 col-md-6 col-lg-4 text-center my-3">
+            <button class="btn customBtn" id="realtimeMovementBtn" onclick="enableRealtimeMovement()">
+                Turn on Realtime Movement
+            </button>
+        </div>
+        <div class="col-12 col-md-6 col-lg-4 text-center my-3">
+            <button class="btn customBtn" id="sendMessagePackets" onclick="startMessageListener()">
+                Start Message Listeners
+            </button>
+        </div>
+        <div class="col-12 col-md-6 col-lg-4 text-center my-3">
+            <button class="btn customBtn" id="enableDynamicTopologyBtn" onclick="toggleDynamicTopology()">Turn on
+                Dynamic
+                Topology
+            </button>
+        </div>
+    </div>
 </div>
+
 <h1 class="titleText">Drawing Canvas</h1>
+
 </body>
 </html>
