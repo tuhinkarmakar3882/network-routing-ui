@@ -1,11 +1,14 @@
-let stateNodeData, statePathData, discoverRouteData, nodeNamesToId={}, idToNodeNames = {};
+let stateNodeData, statePathData, discoverRouteData, nodeNamesToId = {}, idToNodeNames = {};
 let automate = false, realtimeMovementOn = false, offset = 80;
 
 function createNodes() {
     let nodeInput = document.getElementById('nodeInput');
 
-    $.get('http://localhost:8000/', {totalNodesRequired: nodeInput.value, maxX : window.innerWidth - offset , maxY : window.innerHeight - offset })
-    .done(response => {
+    $.get('http://localhost:8000/', {
+        totalNodesRequired: nodeInput.value,
+        maxX: window.innerWidth - offset,
+        maxY: window.innerHeight - offset
+    }).done(response => {
         let nodeData = response.NodeData;
         stateNodeData = nodeData;
 
@@ -14,18 +17,18 @@ function createNodes() {
             background(color(31, 153, 153));
             drawNodes();
         }
+
         draw();
-    })
-    .fail(response => {
+    }).fail(response => {
         console.log(response.responseJSON);
     });
 }
 
 function generateTopology() {
-    $.get('http://localhost:8000/generateTopology')
-    .done(response => {
+    $.get('http://localhost:8000/generateTopology').done(response => {
         let pathData = response.pathData;
         statePathData = pathData;
+
         function draw() {
             clear();
             background(color(31, 153, 153))
@@ -34,8 +37,7 @@ function generateTopology() {
         }
 
         draw();
-    })
-    .fail(response => {
+    }).fail(response => {
         console.log(response.responseJSON);
     });
 }
@@ -45,7 +47,7 @@ function setup() {
 }
 
 function drawNodes() {
-    stroke(color(0,0,0))
+    stroke(color(0, 0, 0))
     nodeNamesToId = {}
     idToNodeNames = {}
     radius = 30;
@@ -67,52 +69,52 @@ function drawNodes() {
     }
 }
 
-function drawTopology() {   
+function drawTopology() {
     for (let data in statePathData) {
-       strokeWeight(1);
-       stroke(color(50, 50, 50));
-    
-       let sourceId = statePathData[data].source;
-       let destinationId = statePathData[data].destination;
-       let sourceXPos = stateNodeData[sourceId].xPos;
-       let sourceYPos = stateNodeData[sourceId].yPos;
-       let destinationXPos = stateNodeData[destinationId].xPos;
-       let destinationYPos = stateNodeData[destinationId].yPos;
-       let weightData = statePathData[data].weightData;
-       line(sourceXPos,sourceYPos,destinationXPos,destinationYPos);
-       
-       let textX = Math.abs((sourceXPos-destinationXPos))/2 + Math.min(sourceXPos, destinationXPos);
-       let textY = Math.abs((sourceYPos-destinationYPos))/2 + Math.min(sourceYPos, destinationYPos);
-       
-       textSize(18);
-       strokeWeight(0);
-       text(weightData,textX,textY);
-   }
+        strokeWeight(1);
+        stroke(color(50, 50, 50));
+
+        let sourceId = statePathData[data].source;
+        let destinationId = statePathData[data].destination;
+        let sourceXPos = stateNodeData[sourceId].xPos;
+        let sourceYPos = stateNodeData[sourceId].yPos;
+        let destinationXPos = stateNodeData[destinationId].xPos;
+        let destinationYPos = stateNodeData[destinationId].yPos;
+        let weightData = statePathData[data].weightData;
+        line(sourceXPos, sourceYPos, destinationXPos, destinationYPos);
+
+        let textX = Math.abs((sourceXPos - destinationXPos)) / 2 + Math.min(sourceXPos, destinationXPos);
+        let textY = Math.abs((sourceYPos - destinationYPos)) / 2 + Math.min(sourceYPos, destinationYPos);
+
+        textSize(18);
+        strokeWeight(0);
+        text(weightData, textX, textY);
+    }
 }
 
-function draw(){
-    if(realtimeMovementOn) {
+function draw() {
+    if (realtimeMovementOn) {
         realtimeMovement();
     }
 }
 
-function realtimeMovement(){
+function realtimeMovement() {
     clear();
     background(color(31, 153, 153));
     for (let data in stateNodeData) {
-        stateNodeData[data].xPos = stateNodeData[data].xPos + random(-10,10);
-        stateNodeData[data].yPos = stateNodeData[data].yPos - random(-7,7);
+        stateNodeData[data].xPos = stateNodeData[data].xPos + random(-10, 10);
+        stateNodeData[data].yPos = stateNodeData[data].yPos - random(-7, 7);
 
-        if(stateNodeData[data].yPos < 0) {
+        if (stateNodeData[data].yPos < 0) {
             stateNodeData[data].yPos = 0;
         }
-        if(stateNodeData[data].yPos > height) {
+        if (stateNodeData[data].yPos > height) {
             stateNodeData[data].yPos = height;
         }
-        if(stateNodeData[data].xPos < 0) {
+        if (stateNodeData[data].xPos < 0) {
             stateNodeData[data].xPos = 0;
         }
-        if(stateNodeData[data].xPos > width) {
+        if (stateNodeData[data].xPos > width) {
             stateNodeData[data].xPos = width;
         }
     }
@@ -120,34 +122,35 @@ function realtimeMovement(){
     drawNodes();
 }
 
-
 function turnOnAutomation() {
     automate = automate ? false : true;
-    let turnOnAutomateBtn= document.getElementById("turnOnAutomationBtn");
+    let turnOnAutomateBtn = document.getElementById("turnOnAutomationBtn");
     turnOnAutomateBtn.textContent = automate ? "Turn Off Dynamic Topology" : "Turn On Dynamic Topology";
     let delay = 2000;
-    if(automate) {
-        automation = setInterval( () =>{ generateTopology(); },delay)
-    }
-    else {
+    if (automate) {
+        automation = setInterval(() => {
+            generateTopology();
+        }, delay)
+    } else {
         clearInterval(automation);
     }
 }
 
 function turnOnRealtimeMovement() {
-   realtimeMovementOn = realtimeMovementOn ? false : true;
-   let realtimeMovementBtn = document.getElementById("realtimeMovementBtn")
-   realtimeMovementBtn.textContent = realtimeMovementOn ? "Turn Off Realtime Movement" : "Turn On Realtime Movement";
+    realtimeMovementOn = realtimeMovementOn ? false : true;
+    let realtimeMovementBtn = document.getElementById("realtimeMovementBtn")
+    realtimeMovementBtn.textContent = realtimeMovementOn ? "Turn Off Realtime Movement" : "Turn On Realtime Movement";
 }
-
 
 function discoverRoute() {
     let sourceNodeId = document.getElementById("source").value;
     let destinationNodeId = document.getElementById("destination").value;
     console.log("discovering routes from", nodeNamesToId[sourceNodeId], "to", nodeNamesToId[destinationNodeId])
-    
-    $.get('http://localhost:8000/discoverRoute', {sourceId: nodeNamesToId[sourceNodeId], destinationId: nodeNamesToId[destinationNodeId] })
-    .done(response => {
+
+    $.get('http://localhost:8000/discoverRoute', {
+        sourceId: nodeNamesToId[sourceNodeId],
+        destinationId: nodeNamesToId[destinationNodeId]
+    }).done(response => {
         console.log(response)
         discoverRouteData = response.RouteData;
         function draw() {
@@ -158,28 +161,25 @@ function discoverRoute() {
             drawNodes();
         }
         draw();
-    })
-    .fail(response => {
+
+    }).fail(response => {
         console.log(response.responseJSON);
     });
 }
 
 function drawRoute() {
-
     for (let data in discoverRouteData) {
-       let sourceId = discoverRouteData[data].source;
-       let destinationId = discoverRouteData[data].destination;
-       let sourceXPos = stateNodeData[sourceId].xPos;
-       let sourceYPos = stateNodeData[sourceId].yPos;
-       let destinationXPos = stateNodeData[destinationId].xPos;
-       let destinationYPos = stateNodeData[destinationId].yPos;
+        let sourceId = discoverRouteData[data].source;
+        let destinationId = discoverRouteData[data].destination;
+        let sourceXPos = stateNodeData[sourceId].xPos;
+        let sourceYPos = stateNodeData[sourceId].yPos;
+        let destinationXPos = stateNodeData[destinationId].xPos;
+        let destinationYPos = stateNodeData[destinationId].yPos;
 
-       strokeWeight(5);
-       stroke(color(0,255,0))
-       console.log("Drawing Line =>", idToNodeNames[sourceId], idToNodeNames[destinationId])
-       // line(stateNodeData[sourceId].xPos, stateNodeData[sourceId].yPos, 
-              // stateNodeData[destinationId].xPos, stateNodeData[destinationId].yPos)
-       line(sourceXPos,sourceYPos,destinationXPos,destinationYPos);
-   }
-   
+        strokeWeight(5);
+        stroke(color(0, 255, 0))
+        console.log("Drawing Line =>", idToNodeNames[sourceId], idToNodeNames[destinationId])
+        line(sourceXPos, sourceYPos, destinationXPos, destinationYPos);
+    }
+
 }
