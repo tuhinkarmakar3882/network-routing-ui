@@ -3,7 +3,7 @@ window.onload = () => {
         const footer = document.createElement('footer');
         footer.classList = 'footer lead';
         footer.innerHTML = `
-        &copy; Tuhin Karmakar
+        &copy; Tuhin Karmakar, Rajarshi Biswas, Swarnabja Bhaumik, Raya Datta
         <br>
         <small>
         <a class="text-muted" href="#">Back To Top</a>
@@ -38,6 +38,16 @@ window.onload = () => {
             <h3 class="mt-5 heading">Want to customize it as per your requirements?</h3>
             <p class="lead referenceText">
                 Just Modify the Backend to Handle the Requirements. And It's all Yours!
+            </p> 
+            
+            <h3 class="mt-5 heading">Meet The Team</h3>
+            <p class="lead referenceText">
+               <ul>
+                  <li class="lead">Tuhin Karmakar</li>  
+                  <li class="lead">Swarnabja Bhaumik</li>  
+                  <li class="lead">Rajarshi Biswas</li>  
+                  <li class="lead">Raya Datta</li>  
+                </ul>
             </p>   
             
 
