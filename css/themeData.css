@@ -6,15 +6,21 @@
     --primaryCustom: #08638d;
     /*--secondaryCustom: #EAE1CB;*/
     --secondaryCustom: #051820;
-    --accent: #617873;
+    --accent: #049C64;
+    --accentDark: #048556;
     --complement: #BE8083;
     --darkTone: #CE9B7E;
     --white: #FFFFFF;
     --black: #000000;
+    --canvas: #065F74;
 }
 
 body {
     overflow-x: hidden;
     background: var(--secondaryCustom);
     color: var(--white);
+}
+
+html {
+    scroll-behavior: smooth;
 }

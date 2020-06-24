@@ -1,5 +1,11 @@
 let stateNodeData, statePathData, discoverRouteData, nodeNamesToId = {}, idToNodeNames = {};
-let automate = false, realtimeMovementOn = false, offset = 80;
+let dynamicTopologyGenerationMode = false, realtimeMovementOn = false, offset = 80, dynamicTopologyGenerator;
+let topologyGenerationDelay = 2000;
+const bg = {
+    red: 6,
+    green: 95,
+    blue: 116,
+}
 
 function createNodes() {
     let nodeInput = document.getElementById('nodeInput');
@@ -9,12 +15,11 @@ function createNodes() {
         maxX: window.innerWidth - offset,
         maxY: window.innerHeight - offset
     }).done(response => {
-        let nodeData = response.NodeData;
-        stateNodeData = nodeData;
+        stateNodeData = response.NodeData;
 
         function draw() {
             clear();
-            background(color(31, 153, 153));
+            background(color(bg.red, bg.green, bg.blue));
             drawNodes();
         }
 
@@ -26,12 +31,11 @@ function createNodes() {
 
 function generateTopology() {
     $.get('http://localhost:8000/generateTopology').done(response => {
-        let pathData = response.pathData;
-        statePathData = pathData;
+        statePathData = response.pathData;
 
         function draw() {
             clear();
-            background(color(31, 153, 153))
+            background(color(bg.red, bg.green, bg.blue));
             drawTopology()
             drawNodes();
         }
@@ -50,7 +54,7 @@ function drawNodes() {
     stroke(color(0, 0, 0))
     nodeNamesToId = {}
     idToNodeNames = {}
-    radius = 30;
+    let radius = 30;
     for (let data in stateNodeData) {
         strokeWeight(1);
         let xPos = stateNodeData[data].xPos;
@@ -100,7 +104,7 @@ function draw() {
 
 function realtimeMovement() {
     clear();
-    background(color(31, 153, 153));
+    background(color(bg.red, bg.green, bg.blue));
     for (let data in stateNodeData) {
         stateNodeData[data].xPos = stateNodeData[data].xPos + random(-10, 10);
         stateNodeData[data].yPos = stateNodeData[data].yPos - random(-7, 7);
@@ -122,22 +126,21 @@ function realtimeMovement() {
     drawNodes();
 }
 
-function turnOnAutomation() {
-    automate = automate ? false : true;
+function toggleDynamicTopology() {
+    dynamicTopologyGenerationMode = !dynamicTopologyGenerationMode;
     let turnOnAutomateBtn = document.getElementById("turnOnAutomationBtn");
-    turnOnAutomateBtn.textContent = automate ? "Turn Off Dynamic Topology" : "Turn On Dynamic Topology";
-    let delay = 2000;
-    if (automate) {
-        automation = setInterval(() => {
+    turnOnAutomateBtn.textContent = dynamicTopologyGenerationMode ? "Turn Off Dynamic Topology" : "Turn On Dynamic Topology";
+    if (dynamicTopologyGenerationMode) {
+        dynamicTopologyGenerator = setInterval(() => {
             generateTopology();
-        }, delay)
+        }, topologyGenerationDelay)
     } else {
-        clearInterval(automation);
+        clearInterval(dynamicTopologyGenerator);
     }
 }
 
-function turnOnRealtimeMovement() {
-    realtimeMovementOn = realtimeMovementOn ? false : true;
+function enableRealtimeMovement() {
+    realtimeMovementOn = !realtimeMovementOn;
     let realtimeMovementBtn = document.getElementById("realtimeMovementBtn")
     realtimeMovementBtn.textContent = realtimeMovementOn ? "Turn Off Realtime Movement" : "Turn On Realtime Movement";
 }
@@ -153,13 +156,15 @@ function discoverRoute() {
     }).done(response => {
         console.log(response)
         discoverRouteData = response.RouteData;
+
         function draw() {
             clear();
-            background(color(31, 153, 153));
+            background(color(bg.red, bg.green, bg.blue));
             drawTopology();
             drawRoute();
             drawNodes();
         }
+
         draw();
 
     }).fail(response => {
