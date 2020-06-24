@@ -1,29 +1,9 @@
-:root {
-    --sans-Serif: 'Open Sans', sans-serif;
-    --condensed: 'Open Sans Condensed', sans-serif;
-    --serif: 'Source Serif Pro', serif;
-    --primaryCustom: #BF2753;
-    --secondaryCustom: #EAE1CB;
-    --accent: #617873;
-    --complement: #BE8083;
-    --darkTone: #CE9B7E;
-    --white: #FFFFFF;
-    --black: #000000;
-}
-
-body {
-    background: var(--secondaryCustom);
-}
-
 .card {
     background: var(--primaryCustom);
-    color: var(--white);
+    color: var(--lightText);
     border-radius: 15px;
     min-height: 350px;
-    max-height: 400px;
     font-family: var(--sans-Serif);
-
-    /*letter-spacing: 4px;*/
 }
 
 .card-header {
@@ -42,6 +22,11 @@ body {
     text-align: center;
     margin: 32px 0;
 }
+.heading {
+    font-family: var(--condensed);
+    letter-spacing: 2px;
+    font-weight: 700;
+}
 
 .titleText::after {
     content: '';
@@ -53,12 +38,39 @@ body {
     background: var(--primaryCustom);
 }
 
-#defaultCanvas0{
-    margin: 2rem;
-    box-shadow: 0 0 20px rgba(0,0,0,.9);
-    background: rgb(31, 153, 153);
+#defaultCanvas0 {
+    display: block;
+    margin: 2rem auto;
+    box-shadow: 0 0 20px rgba(0, 0, 0, .9);
+    background: var(--canvas);
 }
 
-body{
-    overflow-x:hidden;
+
+.customBtn {
+    color: var(--lightText);
+    background: var(--accentDark);
+    padding: 6px 36px;
+    border-radius: 50px;
+}
+
+.customBtn:hover, .customBtn:focus {
+    color: var(--lightText);
+    background: var(--accent);
+    padding: 6px 36px;
+    border-radius: 50px;
+}
+
+.footer {
+    color: var(--lightText);
+    letter-spacing: 1px;
+    text-align: center;
+    margin: 1rem;
+    padding: 1rem;
+}
+
+.referenceText {
+    line-height: 32px;
+    letter-spacing: 1px;
+    text-align: justify;
+    color: #dadada;
 }
