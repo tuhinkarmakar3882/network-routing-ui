@@ -3,7 +3,6 @@
     color: var(--lightText);
     border-radius: 15px;
     min-height: 350px;
-    max-height: 400px;
     font-family: var(--sans-Serif);
 }
 

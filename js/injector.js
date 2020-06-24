@@ -26,12 +26,18 @@ window.onload = () => {
             </p>   
             
             <h3 class="mt-5 heading">Getting Started</h3>
-             <h4 class="text-white lead referenceText">
+            <p class="lead referenceText">
                 <ol>
-                  <li></li>  
-                  <li></li>  
-                  <li></li>  
+                  <li class="lead">Create Nodes</li>  
+                  <li class="lead">Generate Static Topology</li>  
+                  <li class="lead">Start Discovering Paths</li>  
+                  <li class="lead">Use Additional Tools if required</li>  
                 </ol>
+            </p>
+            
+            <h3 class="mt-5 heading">Want to customize it as per your requirements?</h3>
+            <p class="lead referenceText">
+                Just Modify the Backend to Handle the Requirements. And It's all Yours!
             </p>   
             
 
