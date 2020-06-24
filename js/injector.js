@@ -49,9 +49,7 @@ window.onload = () => {
                   <li class="lead">Rajarshi Biswas</li>  
                   <li class="lead">Raya Datta</li>  
                 </ul>
-            </p>   
-            
-
+            </p>
         `
         document.body.appendChild(referenceDiv)
     }
