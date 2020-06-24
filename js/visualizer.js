@@ -85,6 +85,7 @@ function drawNodes() {
 }
 
 function drawTopology() {
+
     for (let data in statePathData) {
         strokeWeight(1);
         stroke(color(50, 50, 50));
@@ -95,9 +96,19 @@ function drawTopology() {
         let sourceYPos = stateNodeData[sourceId].yPos;
         let destinationXPos = stateNodeData[destinationId].xPos;
         let destinationYPos = stateNodeData[destinationId].yPos;
-        let weightData = statePathData[data].weightData;
-        line(sourceXPos, sourceYPos, destinationXPos, destinationYPos);
+        let weightData = Math.round(dist(sourceXPos, sourceYPos, destinationXPos, destinationYPos));//statePathData[data].weightData;
 
+        noFill();
+        beginShape();
+        curveVertex(450,0);
+        curveVertex(sourceXPos, sourceYPos);
+        curveVertex(destinationXPos, destinationYPos);
+        curveVertex(450,0);
+        endShape();
+
+        // line(sourceXPos, sourceYPos, destinationXPos, destinationYPos);
+
+        fill(0);
         let textX = Math.abs((sourceXPos - destinationXPos)) / 2 + Math.min(sourceXPos, destinationXPos);
         let textY = Math.abs((sourceYPos - destinationYPos)) / 2 + Math.min(sourceYPos, destinationYPos);
 
