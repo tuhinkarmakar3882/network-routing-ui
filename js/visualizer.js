@@ -7,12 +7,20 @@ const bg = {
     green: 170,
     blue: 170,
 }
+
 const highLightedRoute = {
     red: 4,
     green: 156,
     blue: 100,
 }
-const nodeFill = {
+
+const defaultNodeFill = {
+    red: 255,
+    green: 255,
+    blue: 255,
+}
+
+const specialNodeFill = {
     red: 196,
     green: 242,
     blue: 127,
@@ -71,17 +79,22 @@ function drawNodes() {
         let xPos = stateNodeData[data].xPos;
         let yPos = stateNodeData[data].yPos;
         let textData = stateNodeData[data].text;
-        fill(color(nodeFill.red, nodeFill.green, nodeFill.blue));
+
+        // if spl. Node
+        //      then fill(color(specialNodeFill.red, specialNodeFill.green, specialNodeFill.blue));
+        // else 
+        fill(color(defaultNodeFill.red, defaultNodeFill.green, defaultNodeFill.blue));
+
         circle(xPos, yPos, radius);
         fill(color(0, 0, 0));
         strokeWeight(0);
         textSize(16);
-
         textStyle(BOLD);
         text(textData, xPos, yPos);
         nodeNamesToId[textData] = stateNodeData[data].id;
         idToNodeNames[stateNodeData[data].id] = textData
     }
+    // Unmark Spl. Nodes
 }
 
 function drawTopology() {
@@ -96,25 +109,41 @@ function drawTopology() {
         let sourceYPos = stateNodeData[sourceId].yPos;
         let destinationXPos = stateNodeData[destinationId].xPos;
         let destinationYPos = stateNodeData[destinationId].yPos;
-        let weightData = Math.round(dist(sourceXPos, sourceYPos, destinationXPos, destinationYPos));//statePathData[data].weightData;
+        let weightData = Math.round(dist(sourceXPos, sourceYPos, destinationXPos, destinationYPos));
 
         noFill();
         beginShape();
+<<<<<<< HEAD
         curveVertex(450, 0);
         curveVertex(sourceXPos, sourceYPos);
         curveVertex(destinationXPos, destinationYPos);
         curveVertex(450, 0);
         endShape();
+=======
 
-        // line(sourceXPos, sourceYPos, destinationXPos, destinationYPos);
+        // adjust control points
+        curveVertex(random(400,405),random(800,805));
 
+        curveVertex(sourceXPos, sourceYPos);
+        curveVertex(destinationXPos, destinationYPos);
+>>>>>>> 3baa6db...  FIXED CONTROL POINT FOR CURVE|Rajarshi
+
+        // adjust control points401
+        curveVertex(random(400,405),random(600,605));
+
+        endShape();
         fill(0);
-        let textX = Math.abs((sourceXPos - destinationXPos)) / 2 + Math.min(sourceXPos, destinationXPos);
-        let textY = Math.abs((sourceYPos - destinationYPos)) / 2 + Math.min(sourceYPos, destinationYPos);
+
+        // Fix Text Alignment on curved edges
+
+        let textX = Math.abs((sourceXPos - destinationXPos)) / 2 + Math.min(sourceXPos, destinationXPos)-80;
+        let textY = Math.abs((sourceYPos - destinationYPos)) / 2 + Math.min(sourceYPos, destinationYPos)-80;
 
         textSize(18);
         strokeWeight(0);
+        textAlign(CENTER,BOTTOM);
         text(weightData, textX, textY);
+
     }
 }
 
@@ -205,6 +234,8 @@ function drawRoute() {
         let sourceYPos = stateNodeData[sourceId].yPos;
         let destinationXPos = stateNodeData[destinationId].xPos;
         let destinationYPos = stateNodeData[destinationId].yPos;
+
+        // Mark the above Nodes As SPl. Nodes
 
         strokeWeight(5);
         stroke(color(highLightedRoute.red, highLightedRoute.green, highLightedRoute.blue));
