@@ -6,19 +6,20 @@
     --primaryCustom: #08638d;
     /*--secondaryCustom: #EAE1CB;*/
     --secondaryCustom: #051820;
-    --accent: #049C64;
+    --accent: #049c64;
     --accentDark: #048556;
     --complement: #BE8083;
     --darkTone: #CE9B7E;
-    --white: #FFFFFF;
-    --black: #000000;
-    --canvas: #065F74;
+    --lightText: #FFFFFF;
+    --pureBlack: #000000;
+    /*--canvas: #065F74;*/
+    --canvas: #aaaaaa;
 }
 
 body {
     overflow-x: hidden;
     background: var(--secondaryCustom);
-    color: var(--white);
+    color: var(--lightText);
 }
 
 html {

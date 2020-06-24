@@ -2,9 +2,14 @@ let stateNodeData, statePathData, discoverRouteData, nodeNamesToId = {}, idToNod
 let dynamicTopologyGenerationMode = false, realtimeMovementOn = false, offset = 80, dynamicTopologyGenerator;
 let topologyGenerationDelay = 2000;
 const bg = {
-    red: 6,
-    green: 95,
-    blue: 116,
+    red: 170,
+    green: 170,
+    blue: 170,
+}
+const highLightedRoute = {
+    red: 4,
+    green: 156,
+    blue: 100,
 }
 
 function createNodes() {
@@ -182,9 +187,22 @@ function drawRoute() {
         let destinationYPos = stateNodeData[destinationId].yPos;
 
         strokeWeight(5);
-        stroke(color(0, 255, 0))
+        stroke(color(highLightedRoute.red, highLightedRoute.green, highLightedRoute.blue));
         console.log("Drawing Line =>", idToNodeNames[sourceId], idToNodeNames[destinationId])
         line(sourceXPos, sourceYPos, destinationXPos, destinationYPos);
     }
 
+}
+
+window.onload = () => {
+    const footer = document.createElement('footer');
+    footer.classList = 'footer lead';
+    footer.innerHTML = `
+        &copy; Tuhin Karmakar
+        <br>
+        <small>
+        <a class="text-muted" href="#">Back To Top</a>
+        </small>
+    `
+    document.body.appendChild(footer)
 }

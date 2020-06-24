@@ -1,6 +1,6 @@
 .card {
     background: var(--primaryCustom);
-    color: var(--white);
+    color: var(--lightText);
     border-radius: 15px;
     min-height: 350px;
     max-height: 400px;
@@ -43,15 +43,24 @@
 
 
 .customBtn {
-    color: var(--white);
+    color: var(--lightText);
     background: var(--accentDark);
     padding: 6px 36px;
     border-radius: 50px;
 }
 
 .customBtn:hover, .customBtn:focus {
-    color: var(--white);
+    color: var(--lightText);
     background: var(--accent);
     padding: 6px 36px;
     border-radius: 50px;
+}
+
+.footer {
+    color: var(--lightText);
+    letter-spacing: 1px;
+    text-align: center;
+    margin: 1rem;
+    padding: 1rem;
+
 }
