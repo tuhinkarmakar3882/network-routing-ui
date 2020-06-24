@@ -3,6 +3,7 @@ window.onload = () => {
         const footer = document.createElement('footer');
         footer.classList = 'footer lead';
         footer.innerHTML = `
+        <hr class="border-light mb-5">
         &copy; Tuhin Karmakar, Rajarshi Biswas, Swarnabja Bhaumik, Raya Datta
         <br>
         <small>
