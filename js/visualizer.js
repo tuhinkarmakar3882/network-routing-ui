@@ -113,20 +113,11 @@ function drawTopology() {
 
         noFill();
         beginShape();
-<<<<<<< HEAD
-        curveVertex(450, 0);
-        curveVertex(sourceXPos, sourceYPos);
-        curveVertex(destinationXPos, destinationYPos);
-        curveVertex(450, 0);
-        endShape();
-=======
-
         // adjust control points
         curveVertex(random(400,405),random(800,805));
 
         curveVertex(sourceXPos, sourceYPos);
         curveVertex(destinationXPos, destinationYPos);
->>>>>>> 3baa6db...  FIXED CONTROL POINT FOR CURVE|Rajarshi
 
         // adjust control points401
         curveVertex(random(400,405),random(600,605));

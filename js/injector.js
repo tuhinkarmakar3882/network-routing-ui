@@ -3,12 +3,8 @@ window.onload = () => {
         const footer = document.createElement('footer');
         footer.classList = 'footer lead';
         footer.innerHTML = `
-<<<<<<< HEAD
         <hr class="border-light mb-5">
         &copy; Tuhin Karmakar, Rajarshi Biswas, Swarnabja Bhaumik, Raya Datta
-=======
-        &copy; 2020
->>>>>>> 3baa6db...  FIXED CONTROL POINT FOR CURVE|Rajarshi
         <br>
         <small>
         <a class="text-muted" href="#">Back To Top</a>
