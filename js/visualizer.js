@@ -100,10 +100,10 @@ function drawTopology() {
 
         noFill();
         beginShape();
-        curveVertex(450,0);
+        curveVertex(450, 0);
         curveVertex(sourceXPos, sourceYPos);
         curveVertex(destinationXPos, destinationYPos);
-        curveVertex(450,0);
+        curveVertex(450, 0);
         endShape();
 
         // line(sourceXPos, sourceYPos, destinationXPos, destinationYPos);
@@ -131,17 +131,20 @@ function realtimeMovement() {
         stateNodeData[data].xPos = stateNodeData[data].xPos + random(-10, 10);
         stateNodeData[data].yPos = stateNodeData[data].yPos - random(-7, 7);
 
-        if (stateNodeData[data].yPos < 0) {
-            stateNodeData[data].yPos = 0;
+        if (stateNodeData[data].yPos < 20) {
+            stateNodeData[data].yPos = 20;
         }
-        if (stateNodeData[data].yPos > height) {
-            stateNodeData[data].yPos = height;
+
+        if (stateNodeData[data].yPos > height - 20) {
+            stateNodeData[data].yPos = height - 20;
         }
-        if (stateNodeData[data].xPos < 0) {
-            stateNodeData[data].xPos = 0;
+
+        if (stateNodeData[data].xPos < 20) {
+            stateNodeData[data].xPos = 20;
         }
-        if (stateNodeData[data].xPos > width) {
-            stateNodeData[data].xPos = width;
+
+        if (stateNodeData[data].xPos > width - 20) {
+            stateNodeData[data].xPos = width - 20;
         }
     }
     drawTopology();
