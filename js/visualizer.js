@@ -124,7 +124,7 @@ function realtimeMovement(){
 function turnOnAutomation() {
     automate = automate ? false : true;
     let turnOnAutomateBtn= document.getElementById("turnOnAutomationBtn");
-    turnOnAutomateBtn.textContent = automate ? "Turn Off Automation" : "Turn On Automation";
+    turnOnAutomateBtn.textContent = automate ? "Turn Off Dynamic Topology" : "Turn On Dynamic Topology";
     let delay = 2000;
     if(automate) {
         automation = setInterval( () =>{ generateTopology(); },delay)
