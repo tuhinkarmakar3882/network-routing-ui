@@ -1,8 +1,10 @@
 .card {
     background: var(--primaryCustom);
     color: var(--lightText);
-    min-height: 350px;
+    height: 460px;
+    overflow: hidden;
     font-family: var(--sans-Serif);
+    transition: height .3s ease-in-out;
 }
 
 .card-body {
@@ -10,6 +12,7 @@
 }
 
 .card-header {
+    cursor: pointer;
     border-top-left-radius: 15px;
     border-top-right-radius: 15px;
     background: var(--primaryCustomDark);
@@ -61,14 +64,13 @@
 .customBtn {
     color: var(--lightText);
     background: var(--accentDark);
-    padding: 6px 36px;
+    padding: 6px 24px;
     border-radius: 50px;
 }
 
 .customBtn:hover, .customBtn:focus {
     color: var(--lightText);
     background: var(--accent);
-    padding: 6px 36px;
     border-radius: 50px;
 }
 

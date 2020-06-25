@@ -1,8 +1,10 @@
-window.onload = () => {
-    function injectFooter() {
-        const footer = document.createElement('footer');
-        footer.classList = 'footer lead';
-        footer.innerHTML = `
+injectReference();
+injectFooter();
+
+function injectFooter() {
+    const footer = document.createElement('footer');
+    footer.classList = 'footer lead';
+    footer.innerHTML = `
         <hr class="border-light mb-5">
         &copy; Tuhin Karmakar, Rajarshi Biswas, Swarnabja Bhaumik, Raya Datta
         <br>
@@ -10,13 +12,13 @@ window.onload = () => {
         <a class="text-muted" href="#">Back To Top</a>
         </small>
     `
-        document.body.appendChild(footer)
-    }
+    document.body.appendChild(footer)
+}
 
-    function injectReference() {
-        const referenceDiv = document.createElement('div');
-        referenceDiv.classList = 'my-4 py-2 container'
-        referenceDiv.innerHTML = `
+function injectReference() {
+    const referenceDiv = document.createElement('div');
+    referenceDiv.classList = 'my-4 py-2 container'
+    referenceDiv.innerHTML = `
             <h1 id="referenceSection" class="titleText">Reference Section</h1>
             
             <h3 class="mt-5 heading">About the Project</h3>
@@ -51,9 +53,5 @@ window.onload = () => {
                 </ul>
             </p>
         `
-        document.body.appendChild(referenceDiv)
-    }
-
-    injectReference();
-    injectFooter();
+    document.body.appendChild(referenceDiv)
 }

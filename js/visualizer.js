@@ -239,5 +239,9 @@ function drawRoute() {
 }
 
 function startMessageListener() {
-    console.log("Set up backend.")
+   alert("Set up backend.")
+}
+
+function testDelivery() {
+    alert("Set Up BackEnd!")
 }
