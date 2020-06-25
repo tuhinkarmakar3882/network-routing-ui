@@ -1,6 +1,7 @@
 let stateNodeData, statePathData, discoverRouteData, nodeNamesToId = {}, idToNodeNames = {};
 let dynamicTopologyGenerationMode = false, realtimeMovementOn = false, offset = 80, dynamicTopologyGenerator;
 let topologyGenerationDelay = 2000;
+let specialNodes=[];
 
 const bg = {
     red: 170,
@@ -25,6 +26,19 @@ const specialNodeFill = {
     green: 242,
     blue: 127,
 }
+
+function isASpecialNodes(xPos,yPos){
+  for(let node of specialNodes)
+  {
+    if((node.xPos === xPos) && (node.yPos === yPos))
+    {
+      return true;
+    }
+  }
+  return false;
+}
+
+
 
 function createNodes() {
     let nodeInput = document.getElementById('nodeInput');
@@ -82,11 +96,14 @@ function drawNodes() {
         let yPos = stateNodeData[data].yPos;
         let textData = stateNodeData[data].text;
 
-        // if spl. Node
-        //      then fill(color(specialNodeFill.red, specialNodeFill.green, specialNodeFill.blue));
-        // else 
-        fill(color(defaultNodeFill.red, defaultNodeFill.green, defaultNodeFill.blue));
-
+        if(isASpecialNodes(xPos,yPos))
+        {
+          fill(color(specialNodeFill.red, specialNodeFill.green, specialNodeFill.blue));
+        }
+        else
+        {
+          fill(color(defaultNodeFill.red, defaultNodeFill.green, defaultNodeFill.blue));
+        }
         circle(xPos, yPos, radius);
         fill(color(0, 0, 0));
         strokeWeight(0);
@@ -96,7 +113,7 @@ function drawNodes() {
         nodeNamesToId[textData] = stateNodeData[data].id;
         idToNodeNames[stateNodeData[data].id] = textData
     }
-    // Unmark Spl. Nodes
+     specialNodes=[];
 }
 
 function drawTopology() {
@@ -221,6 +238,7 @@ function discoverRoute() {
 
 function drawRoute() {
     for (let data in discoverRouteData) {
+
         let sourceId = discoverRouteData[data].source;
         let destinationId = discoverRouteData[data].destination;
         let sourceXPos = stateNodeData[sourceId].xPos;
@@ -228,6 +246,18 @@ function drawRoute() {
         let destinationXPos = stateNodeData[destinationId].xPos;
         let destinationYPos = stateNodeData[destinationId].yPos;
 
+        specialNodes.push({
+          xPos: sourceXPos,
+          yPos: sourceYPos,
+
+        });
+        specialNodes.push({
+          xPos: destinationXPos,
+          yPos: destinationYPos,
+
+        });
+        
+        //specialNodesY.push(destinationXPos,destinationYPos);
         // Mark the above Nodes As SPl. Nodes
 
         strokeWeight(5);
