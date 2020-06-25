@@ -49,9 +49,11 @@ function createNodes() {
 }
 
 function generateTopology() {
-    $.get('http://localhost:8000/generateTopology').done(response => {
+    let totalIterations = document.getElementById('totalIterationsInput');
+    $.get('http://localhost:8000/generateTopology', {
+        totalIterations : totalIterations.value
+    }).done(response => {
         statePathData = response.pathData;
-
         function draw() {
             clear();
             background(color(bg.red, bg.green, bg.blue));

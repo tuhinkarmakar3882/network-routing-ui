@@ -73,7 +73,7 @@
                 <div class="card-body ">
 
                     <label class="mb-3 lead" for="nodeInput">How Many Nodes?</label>
-                    <input class="form-control mb-3" id="nodeInput" type="text">
+                    <input class="form-control mb-3" id="nodeInput" type="text" placeholder="e.g. 5">
                     <p class="lead">This will create nodes with random Values</p>
                 </div>
                 <div class="card-footer text-center">
@@ -81,15 +81,16 @@
                 </div>
             </div>
         </div>
+
         <div class="col-lg-3 col-md-5 col-sm-9 col-11 my-2">
             <div class="card shadow">
                 <div class="card-header">
                     <p class="text-center mb-0">Discover Route</p>
                 </div>
                 <div class="card-body ">
-                    <label class="mb-3 lead" for="source">Source Node Number:</label>
+                    <label class="mb-3 lead" for="source">Source Node:</label>
                     <input class="form-control mb-3" id="source" type="text">
-                    <label class="mb-3 lead" for="destination">Destination Node Number :</label>
+                    <label class="mb-3 lead" for="destination">Destination Node:</label>
                     <input class="form-control mb-3" id="destination" type="text">
                 </div>
                 <div class="card-footer text-center">
@@ -99,14 +100,16 @@
                 </div>
             </div>
         </div>
+
         <div class="col-lg-3 col-md-5 col-sm-9 col-11 my-2">
             <div class="card shadow">
                 <div class="card-header">
                     <p class="text-center mb-0">Topology Generation</p>
                 </div>
                 <div class="card-body ">
+                    <label class="mb-3 lead" for="totalIterationsInput">Number of Iterations:</label>
+                    <input class="form-control mb-3" type="text" id="totalIterationsInput" placeholder="Enter 1 for MST"/>
                     <p class="lead">This will Randomly Generate Path between Nodes.</p>
-                    <p class="lead">Then, You can Discover Paths & Send Data Packets</p>
                 </div>
                 <div class="card-footer text-center">
                     <button onclick="generateTopology()" class="btn customBtn " type="button">Generate Static

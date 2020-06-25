@@ -1,16 +1,28 @@
 .card {
     background: var(--primaryCustom);
     color: var(--lightText);
-    border-radius: 15px;
     min-height: 350px;
     font-family: var(--sans-Serif);
 }
 
+.card-body {
+    background: var(--primaryCustom);
+}
+
 .card-header {
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+    background: var(--primaryCustomDark);
     font-family: var(--condensed);
     font-weight: 700;
     letter-spacing: 1px;
     font-size: 24px;
+}
+
+.card-footer {
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+    background: var(--primaryCustomDark);
 }
 
 .titleText {
@@ -22,6 +34,7 @@
     text-align: center;
     margin: 32px 0;
 }
+
 .heading {
     font-family: var(--condensed);
     letter-spacing: 2px;
@@ -44,7 +57,6 @@
     box-shadow: 0 0 20px rgba(0, 0, 0, .9);
     background: var(--canvas);
 }
-
 
 .customBtn {
     color: var(--lightText);
