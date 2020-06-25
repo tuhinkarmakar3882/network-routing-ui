@@ -64,6 +64,7 @@ function createNodes() {
 
 function generateTopology() {
     let totalIterations = document.getElementById('totalIterationsInput');
+    console.log('value sent',totalIterations.value);
     $.get('http://localhost:8000/generateTopology', {
         totalIterations : totalIterations.value
     }).done(response => {
@@ -128,18 +129,18 @@ function drawTopology() {
         let sourceYPos = stateNodeData[sourceId].yPos;
         let destinationXPos = stateNodeData[destinationId].xPos;
         let destinationYPos = stateNodeData[destinationId].yPos;
-        let weightData = Math.round(dist(sourceXPos, sourceYPos, destinationXPos, destinationYPos));
-
+        //let weightData = Math.round(dist(sourceXPos, sourceYPos, destinationXPos, destinationYPos));
+        let weightData= statePathData[data].weightData;
+ 
         noFill();
         beginShape();
-        // adjust control points
-        curveVertex(random(400,405),random(800,805));
+        
+        curveVertex(random(200,405),random(400,805));
 
         curveVertex(sourceXPos, sourceYPos);
         curveVertex(destinationXPos, destinationYPos);
 
-        // adjust control points401
-        curveVertex(random(400,405),random(600,605));
+        curveVertex(random(200,405),random(200,605));
 
         endShape();
         fill(0);
