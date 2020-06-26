@@ -60,7 +60,7 @@ function injectBody() {
             <div class="row justify-content-center mt-5 px-lg-5">
                 <div class="col-12 col-lg-6">
                     <div class="row">
-                        <div class="col-lg-6 col my-2">
+                        <div class="col-lg-6 col-12 my-2">
                             <div class="card shadow ">
                                 <div class="card-header">
                                     <p class="text-center mb-0">Create Nodes</p>
@@ -78,7 +78,7 @@ function injectBody() {
                             </div>
                         </div>
         
-                        <div class="col-lg-6 col my-2">
+                        <div class="col-lg-6 col-12 my-2">
                             <div class="card shadow ">
                                 <div class="card-header">
                                     <p class="text-center mb-0">Topology Generation</p>
@@ -97,7 +97,7 @@ function injectBody() {
                             </div>
                         </div>
         
-                        <div class="col-lg-6 col my-2">
+                        <div class="col-lg-6 col-12 my-2">
                             <div class="card shadow ">
                                 <div class="card-header">
                                     <p class="text-center mb-0">Discover Route</p>
@@ -117,7 +117,7 @@ function injectBody() {
                             </div>
                         </div>
         
-                        <div class="col-lg-6 col my-2">
+                        <div class="col-lg-6 col-12 my-2">
                             <div class="card shadow ">
                                 <div class="card-header">
                                     <p class="text-center mb-0">Send Data Packets</p>
@@ -144,11 +144,18 @@ function injectBody() {
                 </div>
                 <div class="col-12 col-lg-6">
                     <div class="row outputLogger justify-content-center my-2">
-                        <div class="col">
+                        <div class="col-12">
                             <h1 class="titleText">Output Log</h1>
-                            <div class="text-white px-4 py-2">
+                        </div>
+                        <div class="col-12">
+                            <div class="text-white px-3 py-2">
                                 <p class="w-100" id="logger"></p>
                             </div>
+                        </div>
+                        <div class="col-12 text-center">
+                            <button onclick="clearLog()" class="btn px-5 my-4 customBtn" type="button">
+                                Clear Log
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -187,7 +194,6 @@ function injectBody() {
     setTimeout(() => {
         loadJS("js/injector.js");
     }, 1000)
-
 }
 
 function loadCSS(filename) {

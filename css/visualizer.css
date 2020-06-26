@@ -90,9 +90,16 @@
 }
 
 .outputLogger {
-    max-height: 815px;
-    overflow: auto;
     box-shadow: 0 0 15px black;
+}
+
+#logger {
+    font-family: monospace;
+    /*letter-spacing: 1px;*/
+    line-height: 28px;
+    font-size: 18px;
+    max-height: 595px;
+    overflow: auto;
 }
 
 /* width */

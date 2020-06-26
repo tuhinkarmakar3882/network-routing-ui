@@ -55,3 +55,5 @@ function injectReference() {
         `
     document.body.appendChild(referenceDiv)
 }
+
+printToLog("[+] Frontend Render Successful", 'text-success')
