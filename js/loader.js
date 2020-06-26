@@ -53,82 +53,102 @@ function injectBody() {
                 </ul>
             </div>
         </nav>
+        
         <div class="container-fluid">
             <h1 class="titleText display-4">Network Routing Visualizer</h1>
         
-            <div class="row justify-content-center align-items-center mt-5 px-lg-5">
-                <div class="col-lg-3 col-md-5 col-sm-9 col-11 my-2">
-                    <div class="card shadow collapsible">
-                        <div class="card-header">
-                            <p class="text-center mb-0">Create Nodes</p>
-                        </div>
-                        <div class="card-body">
+            <div class="row justify-content-center mt-5 px-lg-5">
+                <div class="col-12 col-lg-6">
+                    <div class="row">
+                        <div class="col-lg-6 col my-2">
+                            <div class="card shadow ">
+                                <div class="card-header">
+                                    <p class="text-center mb-0">Create Nodes</p>
+                                </div>
+                                <div class="card-body">
         
-                            <label class="mb-3 lead" for="nodeInput">How Many Nodes?</label>
-                            <input class="form-control mb-3" id="nodeInput" type="text" placeholder="e.g. 5">
-                            <p class="lead">This will create nodes with random Values</p>
+                                    <label class="mb-3 lead" for="nodeInput">How Many Nodes?</label>
+                                    <input class="form-control form-control-sm mb-3" id="nodeInput" type="text"
+                                           placeholder="e.g. 5">
+                                    <p class="lead">This will create nodes with random Values</p>
+                                </div>
+                                <div class="card-footer text-center">
+                                    <button class="btn customBtn" onclick="createNodes()" type="button">Create now!</button>
+                                </div>
+                            </div>
                         </div>
-                        <div class="card-footer text-center">
-                            <button class="btn customBtn" onclick="createNodes()" type="button">Create now!</button>
+        
+                        <div class="col-lg-6 col my-2">
+                            <div class="card shadow ">
+                                <div class="card-header">
+                                    <p class="text-center mb-0">Topology Generation</p>
+                                </div>
+                                <div class="card-body ">
+                                    <label class="mb-3 lead" for="totalIterationsInput">Number of Iterations:</label>
+                                    <input class="form-control form-control-sm mb-3" type="text" id="totalIterationsInput"
+                                           placeholder="Enter 1 for MST"/>
+                                    <p class="lead">This will Randomly Generate Path between Nodes.</p>
+                                </div>
+                                <div class="card-footer text-center">
+                                    <button onclick="generateTopology()" class="btn customBtn " type="button">Generate Static
+                                        Topology!
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+        
+                        <div class="col-lg-6 col my-2">
+                            <div class="card shadow ">
+                                <div class="card-header">
+                                    <p class="text-center mb-0">Discover Route</p>
+                                </div>
+                                <div class="card-body ">
+                                    <label class="mb-3 lead" for="source">Source Node:</label>
+                                    <input class="form-control form-control-sm mb-3" id="source" type="text">
+                                    <label class="mb-3 lead" for="destination">Destination Node:</label>
+                                    <input class="form-control form-control-sm mb-3" id="destination" type="text">
+                                </div>
+                                <div class="card-footer text-center">
+                                    <button id="discoverRoute" onclick="discoverRoute()" class="btn customBtn " type="button">
+                                        Perform
+                                        Discovery!
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+        
+                        <div class="col-lg-6 col my-2">
+                            <div class="card shadow ">
+                                <div class="card-header">
+                                    <p class="text-center mb-0">Send Data Packets</p>
+                                </div>
+                                <div class="card-body ">
+                                    <label class="mb-2 lead" for="msgSource">Source Node:</label>
+                                    <input class="form-control form-control-sm mb-2" type="text" id="msgSource"
+                                           placeholder="PQR"/>
+                                    <label class="mb-2 lead" for="msgDestination">Destination Node:</label>
+                                    <input class="form-control form-control-sm mb-2" type="text" id="msgDestination"
+                                           placeholder="XIY"/>
+                                    <label class="mb-2 lead" for="packetsCount">Total Packets:</label>
+                                    <input class="form-control form-control-sm mb-2" type="text" id="packetsCount"
+                                           placeholder="100"/>
+                                </div>
+                                <div class="card-footer text-center">
+                                    <button onclick="testDelivery()" class="btn customBtn" type="button">
+                                        Test Delivery Ratio
+                                    </button>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-        
-                <div class="col-lg-3 col-md-5 col-sm-9 col-11 my-2">
-                    <div class="card shadow">
-                        <div class="card-header">
-                            <p class="text-center mb-0">Topology Generation</p>
-                        </div>
-                        <div class="card-body ">
-                            <label class="mb-3 lead" for="totalIterationsInput">Number of Iterations:</label>
-                            <input class="form-control mb-3" type="text" id="totalIterationsInput"
-                                   placeholder="Enter 1 for MST"/>
-                            <p class="lead">This will Randomly Generate Path between Nodes.</p>
-                        </div>
-                        <div class="card-footer text-center">
-                            <button onclick="generateTopology()" class="btn customBtn " type="button">Generate Static
-                                Topology!
-                            </button>
-                        </div>
-                    </div>
-                </div>
-        
-                <div class="col-lg-3 col-md-5 col-sm-9 col-11 my-2">
-                    <div class="card shadow">
-                        <div class="card-header">
-                            <p class="text-center mb-0">Discover Route</p>
-                        </div>
-                        <div class="card-body ">
-                            <label class="mb-3 lead" for="source">Source Node:</label>
-                            <input class="form-control mb-3" id="source" type="text">
-                            <label class="mb-3 lead" for="destination">Destination Node:</label>
-                            <input class="form-control mb-3" id="destination" type="text">
-                        </div>
-                        <div class="card-footer text-center">
-                            <button id="discoverRoute" onclick="discoverRoute()" class="btn customBtn " type="button">Perform
-                                Discovery!
-                            </button>
-                        </div>
-                    </div>
-                </div>
-        
-                <div class="col-lg-3 col-md-5 col-sm-9 col-11 my-2">
-                    <div class="card shadow">
-                        <div class="card-header">
-                            <p class="text-center mb-0">Send Data Packets</p>
-                        </div>
-                        <div class="card-body ">
-                            <label class="mb-3 lead" for="msgSource">Source Node:</label>
-                            <input class="form-control mb-3" type="text" id="msgSource" placeholder="PQR"/>
-                            <label class="mb-3 lead" for="msgDestination">Destination Node:</label>
-                            <input class="form-control mb-3" type="text" id="msgDestination" placeholder="XIY"/>
-                            <label class="mb-3 lead" for="packetsCount">Total Packets:</label>
-                            <input class="form-control mb-3" type="text" id="packetsCount" placeholder="100"/>
-                        </div>
-                        <div class="card-footer text-center">
-                            <button onclick="testDelivery()" class="btn customBtn" type="button">
-                                Test Delivery Ratio
-                            </button>
+                <div class="col-12 col-lg-6">
+                    <div class="row outputLogger justify-content-center my-2">
+                        <div class="col">
+                            <h1 class="titleText">Output Log</h1>
+                            <div class="text-white px-4 py-2">
+                                <p class="w-100" id="logger"></p>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -159,6 +179,8 @@ function injectBody() {
         </div>
         
         <h1 class="titleText">Simulation Canvas</h1>
+        
+
     `
     loadJS("js/p5.min.js");
     loadJS("js/controlSet.js");

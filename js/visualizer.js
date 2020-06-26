@@ -1,7 +1,8 @@
 let stateNodeData, statePathData, discoverRouteData, nodeNamesToId = {}, idToNodeNames = {};
+let outputLog;
 let dynamicTopologyGenerationMode = false, realtimeMovementOn = false, offset = 80, dynamicTopologyGenerator;
 let topologyGenerationDelay = 2000;
-let specialNodes=[];
+let specialNodes = [];
 
 const bg = {
     red: 170,
@@ -27,17 +28,14 @@ const specialNodeFill = {
     blue: 127,
 }
 
-function isASpecialNodes(xPos,yPos){
-  for(let node of specialNodes)
-  {
-    if((node.xPos === xPos) && (node.yPos === yPos))
-    {
-      return true;
+function isASpecialNodes(xPos, yPos) {
+    for (let node of specialNodes) {
+        if ((node.xPos === xPos) && (node.yPos === yPos)) {
+            return true;
+        }
     }
-  }
-  return false;
+    return false;
 }
-
 
 
 function createNodes() {
@@ -58,17 +56,18 @@ function createNodes() {
 
         draw();
     }).fail(response => {
-        console.log(response.responseJSON);
+        printToLog(response.responseJSON);
     });
 }
 
 function generateTopology() {
     let totalIterations = document.getElementById('totalIterationsInput');
-    console.log('value sent',totalIterations.value);
+    printToLog(`Value sent ${totalIterations.value}`);
     $.get('http://localhost:8000/generateTopology', {
-        totalIterations : totalIterations.value
+        totalIterations: totalIterations.value
     }).done(response => {
         statePathData = response.pathData;
+
         function draw() {
             clear();
             background(color(bg.red, bg.green, bg.blue));
@@ -78,7 +77,7 @@ function generateTopology() {
 
         draw();
     }).fail(response => {
-        console.log(response.responseJSON);
+        printToLog(response.responseJSON);
     });
 }
 
@@ -90,31 +89,28 @@ function drawNodes() {
     stroke(color(0, 0, 0))
     nodeNamesToId = {}
     idToNodeNames = {}
-    let radius = 35 ;
+    let radius = 35;
     for (let data in stateNodeData) {
         strokeWeight(1);
         let xPos = stateNodeData[data].xPos;
         let yPos = stateNodeData[data].yPos;
         let textData = stateNodeData[data].text;
 
-        if(isASpecialNodes(xPos,yPos))
-        {
-          fill(color(specialNodeFill.red, specialNodeFill.green, specialNodeFill.blue));
-        }
-        else
-        {
-          fill(color(defaultNodeFill.red, defaultNodeFill.green, defaultNodeFill.blue));
+        if (isASpecialNodes(xPos, yPos)) {
+            fill(color(specialNodeFill.red, specialNodeFill.green, specialNodeFill.blue));
+        } else {
+            fill(color(defaultNodeFill.red, defaultNodeFill.green, defaultNodeFill.blue));
         }
         circle(xPos, yPos, radius);
         fill(color(0, 0, 0));
         strokeWeight(0);
         textSize(11);
         textStyle(BOLD);
-        text(textData, xPos, yPos+4);
+        text(textData, xPos, yPos + 4);
         nodeNamesToId[textData] = stateNodeData[data].id;
         idToNodeNames[stateNodeData[data].id] = textData
     }
-     specialNodes=[];
+    specialNodes = [];
 }
 
 function drawTopology() {
@@ -130,29 +126,29 @@ function drawTopology() {
         let destinationXPos = stateNodeData[destinationId].xPos;
         let destinationYPos = stateNodeData[destinationId].yPos;
         //let weightData = Math.round(dist(sourceXPos, sourceYPos, destinationXPos, destinationYPos));
-        let weightData= statePathData[data].weightData;
- 
+        let weightData = statePathData[data].weightData;
+
         noFill();
         beginShape();
-        
-        curveVertex(random(200,405),random(400,805));
+
+        curveVertex(random(200, 405), random(400, 805));
 
         curveVertex(sourceXPos, sourceYPos);
         curveVertex(destinationXPos, destinationYPos);
 
-        curveVertex(random(200,405),random(200,605));
+        curveVertex(random(200, 405), random(200, 605));
 
         endShape();
         fill(0);
 
         // Fix Text Alignment on curved edges
 
-        let textX = Math.abs((sourceXPos - destinationXPos)) / 2 + Math.min(sourceXPos, destinationXPos)-80;
-        let textY = Math.abs((sourceYPos - destinationYPos)) / 2 + Math.min(sourceYPos, destinationYPos)-80;
+        let textX = Math.abs((sourceXPos - destinationXPos)) / 2 + Math.min(sourceXPos, destinationXPos) - 80;
+        let textY = Math.abs((sourceYPos - destinationYPos)) / 2 + Math.min(sourceYPos, destinationYPos) - 80;
 
         textSize(18);
         strokeWeight(0);
-        textAlign(CENTER,BOTTOM);
+        textAlign(CENTER, BOTTOM);
         text(weightData, textX, textY);
 
     }
@@ -193,8 +189,9 @@ function realtimeMovement() {
 
 function toggleDynamicTopology() {
     dynamicTopologyGenerationMode = !dynamicTopologyGenerationMode;
-    let turnOnAutomateBtn = document.getElementById("enableDynamicTopologyBtn");
-    turnOnAutomateBtn.textContent = dynamicTopologyGenerationMode ? "Turn Off Dynamic Topology" : "Turn On Dynamic Topology";
+    let enableDynamicTopologyButton = document.getElementById("enableDynamicTopologyBtn");
+    enableDynamicTopologyButton.textContent = dynamicTopologyGenerationMode ? "Turn Off Dynamic Topology" : "Turn On Dynamic Topology";
+    printToLog(dynamicTopologyGenerationMode ? "Turned ON Dynamic Topology" : "Turned OFF Dynamic Topology");
     if (dynamicTopologyGenerationMode) {
         dynamicTopologyGenerator = setInterval(() => {
             generateTopology();
@@ -208,18 +205,18 @@ function enableRealtimeMovement() {
     realtimeMovementOn = !realtimeMovementOn;
     let realtimeMovementBtn = document.getElementById("realtimeMovementBtn")
     realtimeMovementBtn.textContent = realtimeMovementOn ? "Turn Off Realtime Movement" : "Turn On Realtime Movement";
+    printToLog(realtimeMovementOn ? "Turned ON Realtime Movement" : "Turned OFF Realtime Movement");
 }
 
 function discoverRoute() {
     let sourceNodeId = document.getElementById("source").value;
     let destinationNodeId = document.getElementById("destination").value;
-    console.log("discovering routes from", nodeNamesToId[sourceNodeId], "to", nodeNamesToId[destinationNodeId])
+    printToLog(`Discovering Routes from ${nodeNamesToId[sourceNodeId]} to ${nodeNamesToId[destinationNodeId]}`)
 
     $.get('http://localhost:8000/discoverRoute', {
         sourceId: nodeNamesToId[sourceNodeId],
         destinationId: nodeNamesToId[destinationNodeId]
     }).done(response => {
-        console.log(response)
         discoverRouteData = response.RouteData;
 
         function draw() {
@@ -233,6 +230,7 @@ function discoverRoute() {
         draw();
 
     }).fail(response => {
+        printToLog("ERROR!")
         console.log(response.responseJSON);
     });
 }
@@ -248,31 +246,34 @@ function drawRoute() {
         let destinationYPos = stateNodeData[destinationId].yPos;
 
         specialNodes.push({
-          xPos: sourceXPos,
-          yPos: sourceYPos,
+            xPos: sourceXPos,
+            yPos: sourceYPos,
 
         });
         specialNodes.push({
-          xPos: destinationXPos,
-          yPos: destinationYPos,
+            xPos: destinationXPos,
+            yPos: destinationYPos,
 
         });
-        
-        //specialNodesY.push(destinationXPos,destinationYPos);
-        // Mark the above Nodes As SPl. Nodes
 
         strokeWeight(5);
         stroke(color(highLightedRoute.red, highLightedRoute.green, highLightedRoute.blue));
-        console.log("Drawing Line =>", idToNodeNames[sourceId], idToNodeNames[destinationId])
+        printToLog(`Drawing Line => ${idToNodeNames[sourceId]} ${idToNodeNames[destinationId]}`)
         line(sourceXPos, sourceYPos, destinationXPos, destinationYPos);
     }
 
 }
 
 function startMessageListener() {
-   alert("Set up backend.")
+    alert("Set up backend.")
 }
 
 function testDelivery() {
     alert("Set Up BackEnd!")
+}
+
+function printToLog(message) {
+    if (!outputLog)
+        outputLog = document.getElementById("logger")
+    outputLog.innerHTML += `<br/>${message}`;
 }
