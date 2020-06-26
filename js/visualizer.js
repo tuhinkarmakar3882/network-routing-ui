@@ -90,7 +90,7 @@ function drawNodes() {
     stroke(color(0, 0, 0))
     nodeNamesToId = {}
     idToNodeNames = {}
-    let radius = 30;
+    let radius = 35 ;
     for (let data in stateNodeData) {
         strokeWeight(1);
         let xPos = stateNodeData[data].xPos;
@@ -108,9 +108,9 @@ function drawNodes() {
         circle(xPos, yPos, radius);
         fill(color(0, 0, 0));
         strokeWeight(0);
-        textSize(16);
+        textSize(11);
         textStyle(BOLD);
-        text(textData, xPos, yPos);
+        text(textData, xPos, yPos+4);
         nodeNamesToId[textData] = stateNodeData[data].id;
         idToNodeNames[stateNodeData[data].id] = textData
     }
