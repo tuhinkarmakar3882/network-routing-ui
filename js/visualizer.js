@@ -49,25 +49,7 @@ function createNodes() {
 }
 
 function generateTopology() {
-    let totalIterations = document.getElementById('totalIterationsInput');
-    printToLog(`[+] Generating Topology... Iterations = ${totalIterations.value ? totalIterations.value : 'undefined'}`);
-    $.get('http://localhost:8000/generateTopology', {
-        totalIterations: totalIterations.value
-    }).done(response => {
-        statePathData = response.pathData;
-
-        function draw() {
-            clear();
-            background(color(bg.red, bg.green, bg.blue));
-            drawTopology()
-            drawNodes();
-        }
-
-        draw();
-        printToLog(`[+] ${response.message}`, 'text-success');
-    }).fail(response => {
-        printToLog(`[!] ${response.responseJSON['message']}`, 'text-danger')
-    });
+    printToLog("Please Implement me!","text-danger")
 }
 
 function discoverRoute() {
