@@ -81,17 +81,17 @@ function injectBody() {
                         <div class="col-lg-6 col-12 my-2">
                             <div class="card shadow ">
                                 <div class="card-header">
-                                    <p class="text-center mb-0">Topology Generation</p>
+                                    <p class="text-center mb-0">Start Scanning</p>
                                 </div>
                                 <div class="card-body ">
-                                    <label class="mb-3 lead" for="totalIterationsInput">Number of Iterations:</label>
-                                    <input class="form-control form-control-sm mb-3" type="text" id="totalIterationsInput"
-                                           placeholder="Enter 1 for MST"/>
-                                    <p class="lead">This will Randomly Generate Path between Nodes.</p>
+                                    <label class="mb-3 lead" for="maxRangeInput">Scanning Range:</label>
+                                    <input class="form-control form-control-sm mb-3" type="text" id="maxRangeInput"
+                                           placeholder="e.g. 250"/>
+                                    <p class="lead">This will Start Scanning For Other ADHOC Nodes</p>
                                 </div>
                                 <div class="card-footer text-center">
-                                    <button onclick="generateTopology()" class="btn customBtn " type="button">Generate Static
-                                        Topology!
+                                    <button onclick="scanForNodes()" class="btn customBtn " type="button">
+                                        Start Scanning
                                     </button>
                                 </div>
                             </div>
