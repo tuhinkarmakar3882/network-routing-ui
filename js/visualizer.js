@@ -154,7 +154,6 @@ function enableRealtimeMovement() {
 }
 
 function realtimeMovement() {
-	// clear();
 	background(color(bg.red, bg.green, bg.blue));
 	for (let data in stateNodeData) {
 		stateNodeData[data].xPos = stateNodeData[data].xPos + random(-10, 10);
@@ -205,7 +204,23 @@ function draw() {
 	if (realtimeMovementOn) {
 		realtimeMovement();
 	}
-  nodeObjectArray.forEach(node => node.show())
+  nodeObjectArray.forEach(node => {
+    node.show()
+    x = node.x
+    y = node.y
+    range = node.maxRange
+    stroke(0)
+    strokeWeight(1)
+    for (let node1 of nodeObjectArray) {
+      let distance = Math.round(dist(x, y, node1.x, node1.y))
+      if (dist(x, y, node1.x, node1.y) < range) {
+        line(x, y, node1.x, node1.y)
+        text(distance, (x + node1.x) / 2, (y + node1.y) / 2)
+        node1.connections++;
+      }
+    }
+
+  });
 }
 
 function drawNodes() {
@@ -231,6 +246,7 @@ function drawNodes() {
 }
 
 function drawTopology() {
+
 
 	for (let data in statePathData) {
 		strokeWeight(1);
