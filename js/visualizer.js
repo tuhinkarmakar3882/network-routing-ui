@@ -56,7 +56,7 @@ class Node {
 		}
 
 		circle(this.x, this.y, this.r);
-		node.runScan();
+		this.runScan();
 		fill(color(0, 0, 0));
 		strokeWeight(0);
 		textSize(11);
@@ -154,7 +154,7 @@ function enableRealtimeMovement() {
 }
 
 function realtimeMovement() {
-	clear();
+	// clear();
 	background(color(bg.red, bg.green, bg.blue));
 	for (let data in stateNodeData) {
 		stateNodeData[data].xPos = stateNodeData[data].xPos + random(-10, 10);
@@ -177,8 +177,13 @@ function realtimeMovement() {
 		}
 	}
 
-	drawTopology();
-	drawNodes();
+  for (var i = stateNodeData.length - 1; i >= 0; i--) {
+    nodeObjectArray[i].x =  stateNodeData[i].xPos;
+    nodeObjectArray[i].y =  stateNodeData[i].yPos;
+  }
+
+	// drawTopology();
+	// drawNodes();
 }
 
 function isASpecialNodes(xPos, yPos) {
@@ -195,9 +200,12 @@ function setup() {
 }
 
 function draw() {
+  
+  clear()
 	if (realtimeMovementOn) {
 		realtimeMovement();
 	}
+  nodeObjectArray.forEach(node => node.show())
 }
 
 function drawNodes() {
