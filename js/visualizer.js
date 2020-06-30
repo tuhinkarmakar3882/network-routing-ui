@@ -58,6 +58,7 @@ class Node {
 		circle(this.x, this.y, this.r);
 		this.runScan();
 		fill(color(0, 0, 0));
+        stroke(0)
 		strokeWeight(0);
 		textSize(11);
 		textStyle(BOLD);
@@ -93,8 +94,14 @@ function createNodes() {
 function scanForNodes() {
 	let maxRange = document.getElementById("maxRangeInput").value;
 	printToLog(`[+] Initializing Scan with range = ${maxRange ? maxRange : "undefined"}`, "text-success")
-	printToLog("[!] Please Implement me!","text-danger")
-
+    if (maxRange) {
+	   for (let node of nodeObjectArray) {
+            node.maxRange = maxRange
+        }
+        printToLog("[+] Range Update Successful.","text-success");
+    } else {
+        printToLog("[!] Invalid Range.","text-danger");
+    }
 }
 
 
@@ -208,14 +215,17 @@ function draw() {
     node.show()
     x = node.x
     y = node.y
-    range = node.maxRange
+    range = node.range
     stroke(0)
-    strokeWeight(1)
+    strokeWeight(0)
+    fill(0)
     for (let node1 of nodeObjectArray) {
       let distance = Math.round(dist(x, y, node1.x, node1.y))
-      if (dist(x, y, node1.x, node1.y) < range) {
-        line(x, y, node1.x, node1.y)
+      if (distance < range) {
+        textSize(12)
         text(distance, (x + node1.x) / 2, (y + node1.y) / 2)
+        strokeWeight(1)
+        line(x, y, node1.x, node1.y)
         node1.connections++;
       }
     }
