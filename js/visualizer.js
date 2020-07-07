@@ -86,6 +86,7 @@ function createNodes() {
 
         draw();
         printToLog(`[+] ${response.message}`, 'text-success');
+        discoverRouteData = []
     }).fail(response => {
         printToLog(`[!] ${response.responseJSON['message']}`, 'text-danger')
     });
