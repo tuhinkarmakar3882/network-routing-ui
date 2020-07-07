@@ -147,6 +147,7 @@ function testDelivery() {
     let destinationNodeName = document.getElementById("msgDestination").value;
     let maximumAllowedPacket = document.getElementById("packetsCount").value ? document.getElementById("packetsCount").value : 0;
 
+    discoverRouteData = []
     let successFullyDelivered = 0;
     let deliveryTime = [];
     document.getElementById('totalPackets').textContent = maximumAllowedPacket.toString();
@@ -177,7 +178,7 @@ function testDelivery() {
             document.getElementById('timeTaken').textContent = response.timeTaken;
             deliveryTime.push(response.timeTaken);
 
-            document.getElementById('leftToSend').textContent = maximumAllowedPacket - successFullyDelivered;
+            document.getElementById('leftToSend').textContent = (maximumAllowedPacket - packetNumber - 1).toString();
             let totalTime = 0;
             deliveryTime.forEach(item => {
                 totalTime += item
@@ -186,7 +187,9 @@ function testDelivery() {
 
         }).fail(response => {
             document.getElementById('lossRate').textContent = ((maximumAllowedPacket - successFullyDelivered) / maximumAllowedPacket) * 100;
-            document.getElementById('leftToSend').textContent = maximumAllowedPacket - successFullyDelivered;
+            document.getElementById('leftToSend').textContent = (maximumAllowedPacket - packetNumber - 1).toString();
+            console.log(successFullyDelivered)
+            discoverRouteData = []
             printToLog(`[!] ${response.responseJSON['message']}`, 'text-danger')
         });
     }
@@ -222,7 +225,7 @@ function enableRealtimeMovement() {
 function realtimeMovement() {
     background(color(bg.red, bg.green, bg.blue));
     for (let data in stateNodeData) {
-        stateNodeData[data].xPos = stateNodeData[data].xPos + random(-10, 10);
+        stateNodeData[data].xPos = stateNodeData[data].xPos + random(-7, 7);
         stateNodeData[data].yPos = stateNodeData[data].yPos - random(-7, 7);
 
         if (stateNodeData[data].yPos < 20) {
@@ -248,9 +251,13 @@ function realtimeMovement() {
     }
 
     if(tracking) {
-        discoverRoute()
+        // discoverRoute()
+        drawRoute();
     }
 
+    // if(displayRoute) {
+    //     drawRoute()
+    // }
 }
 
 function isASpecialNodes(xPos, yPos) {
