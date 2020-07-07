@@ -9,8 +9,8 @@ const bg = {
     blue: 170,
 }
 const highLightedRoute = {
-    red: 4,
-    green: 156,
+    red: 156,
+    green: 4,
     blue: 100,
 }
 const defaultNodeFill = {
