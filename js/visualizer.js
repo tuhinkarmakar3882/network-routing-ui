@@ -127,6 +127,9 @@ function discoverRoute() {
 
         draw();
         // printToLog(`[+] ${response.message}`, 'text-success');
+        printToLog(`[+] Path Found:  ${response.found}`, 'text-success');
+        printToLog(`[+] Time Taken:  ${response.timeTaken} seconds`, 'text-warning');
+        document.getElementById('timeTaken').textContent = response.timeTaken;
     }).fail(response => {
         printToLog(`[!] ${response.responseJSON['message']}`, 'text-danger')
     });

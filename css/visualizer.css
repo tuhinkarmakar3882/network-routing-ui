@@ -102,6 +102,16 @@
     overflow: auto;
 }
 
+.customBgMetric {
+    border-radius: 15px;
+    box-shadow: 0 0 15px black;
+}
+
+.mtext {
+    letter-spacing: 1px;
+    font-weight: 300;
+}
+
 /* width */
 ::-webkit-scrollbar {
     width: 2px;

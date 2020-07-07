@@ -177,17 +177,20 @@ function injectBody() {
                     </button>
                 </div>
                 <div class="col-12 col-md-6 col-lg-4 text-center my-3">
-                    <button class="btn customBtn" id="enableDynamicTopologyBtn" onclick="toggleDynamicTopology()">Turn on
-                        Dynamic
-                        Topology
+                    <button class="btn customBtn" id="enableDynamicTopologyBtn" onclick="toggleDynamicTopology()">
+                        Turn on Dynamic Topology
                     </button>
                 </div>
             </div>
         </div>
         
+        <div class="jumbotron customBgMetric my-3 py-4 container">
+            <h4 class="text-center mtext my-3">Packet Delivery Loss => <span class="text-warning" id="lossRate">INF</span> %</h4>            
+            <h4 class="text-center mtext my-3">Route Discovery Time => <span class="text-warning" id="timeTaken">INF</span> seconds</h4>
+        </div>
+        
         <h1 class="titleText">Simulation Canvas</h1>
         
-
     `
     loadJS("js/p5.min.js");
     loadJS("js/controlSet.js");
