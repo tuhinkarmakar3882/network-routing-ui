@@ -12,10 +12,14 @@
 function printToLog(message, classNames) {
     if (!outputLog)
         outputLog = document.getElementById("logger")
-    outputLog.innerHTML += `
-        <br/>
-        <span class="${classNames ? classNames : 'text-muted'}">${message}</span>
-    `;
+
+    if(outputLog.innerHTML.length > 4000){
+        outputLog.innerHTML = ``
+    }
+    // outputLog.innerHTML += `
+    //     <br/>
+    //     <span class="${classNames ? classNames : 'text-muted'}">${message}</span>
+    // `;
 }
 
 function clearLog() {

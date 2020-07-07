@@ -107,15 +107,16 @@ function scanForNodes() {
 function discoverRoute() {
     let sourceNodeName = document.getElementById("source").value;
     let destinationNodeName = document.getElementById("destination").value;
-    printToLog(`[+] Discovering Routes from ${sourceNodeName} to ${destinationNodeName}`)
+    // printToLog(`[+] Discovering Routes from ${sourceNodeName} to ${destinationNodeName}`)
 
     $.get('http://localhost:8000/discoverRoute/', {
         sourceId: sourceNodeName,
         destinationId: destinationNodeName,
         maxRange: document.getElementById("maxRangeInput").value ? document.getElementById("maxRangeInput").value : 100,
+        nodeData: JSON.stringify(stateNodeData),
     }).done(response => {
         discoverRouteData = response.RouteData;
-        printToLog(discoverRouteData)
+        // printToLog(discoverRouteData)
         function draw() {
             clear();
             background(color(bg.red, bg.green, bg.blue));
@@ -125,7 +126,7 @@ function discoverRoute() {
         }
 
         draw();
-        printToLog(`[+] ${response.message}`, 'text-success');
+        // printToLog(`[+] ${response.message}`, 'text-success');
     }).fail(response => {
         printToLog(`[!] ${response.responseJSON['message']}`, 'text-danger')
     });
@@ -188,8 +189,8 @@ function realtimeMovement() {
         nodeObjectArray[i].y = stateNodeData[i].yPos;
     }
 
-    // drawTopology();
-    // drawNodes();
+    discoverRoute()
+
 }
 
 function isASpecialNodes(xPos, yPos) {
