@@ -86,7 +86,7 @@ function injectBody() {
                                 <div class="card-body ">
                                     <label class="mb-3 lead" for="totalIterationsInput">Number of Iterations:</label>
                                     <input class="form-control form-control-sm mb-3" type="text" id="totalIterationsInput"
-                                           placeholder="Enter 1 for MST"/>
+                                           placeholder="Higher the Number => Higher the Complexity"/>
                                     <p class="lead">This will Randomly Generate Path between Nodes.</p>
                                 </div>
                                 <div class="card-footer text-center">
