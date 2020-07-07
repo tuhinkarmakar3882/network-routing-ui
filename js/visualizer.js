@@ -117,6 +117,7 @@ function discoverRoute() {
         nodeData: JSON.stringify(stateNodeData),
     }).done(response => {
         discoverRouteData = response.RouteData;
+
         // printToLog(discoverRouteData)
         function draw() {
             clear();
@@ -137,7 +138,55 @@ function discoverRoute() {
 }
 
 function testDelivery() {
-    alert("Set Up BackEnd!")
+    let sourceNodeName = document.getElementById("msgSource").value;
+    let destinationNodeName = document.getElementById("msgDestination").value;
+    let maximumAllowedPacket = document.getElementById("packetsCount").value ? document.getElementById("packetsCount").value : 0;
+
+    let successFullyDelivered = 0;
+    let deliveryTime = []
+    document.getElementById('totalPackets').textContent = maximumAllowedPacket;
+
+    for (let packetNumber = 0; packetNumber < maximumAllowedPacket; packetNumber++) {
+        $.get('http://localhost:8000/discoverRoute/', {
+            sourceId: sourceNodeName,
+            destinationId: destinationNodeName,
+            maxRange: document.getElementById("maxRangeInput").value ? document.getElementById("maxRangeInput").value : 100,
+            nodeData: JSON.stringify(stateNodeData),
+        }).done(response => {
+            discoverRouteData = response.RouteData;
+
+            // printToLog(discoverRouteData)
+            function draw() {
+                clear();
+                background(color(bg.red, bg.green, bg.blue));
+                // drawTopology();
+                // drawRoute();
+                drawNodes();
+            }
+
+            draw();
+            successFullyDelivered++;
+            printToLog(`[+] Path Found:  ${response.found}`, 'text-success');
+            printToLog(`[+] Time Taken:  ${response.timeTaken} seconds`, 'text-warning');
+            document.getElementById('lossRate').textContent = ((maximumAllowedPacket - successFullyDelivered) / maximumAllowedPacket) * 100;
+            document.getElementById('timeTaken').textContent = response.timeTaken;
+            deliveryTime.push(response.timeTaken);
+
+            document.getElementById('leftToSend').textContent = maximumAllowedPacket - successFullyDelivered;
+            let totalTime = 0;
+            deliveryTime.forEach(item => {
+                totalTime += item
+            })
+            document.getElementById('avgTime').textContent = totalTime / deliveryTime.length;
+
+        }).fail(response => {
+            document.getElementById('lossRate').textContent = ((maximumAllowedPacket - successFullyDelivered) / maximumAllowedPacket) * 100;
+            document.getElementById('leftToSend').textContent = maximumAllowedPacket - successFullyDelivered;
+            printToLog(`[!] ${response.responseJSON['message']}`, 'text-danger')
+        });
+    }
+
+
 }
 
 function startMessageListener() {
@@ -252,7 +301,7 @@ function drawNodes() {
         let yPos = data.yPos;
         let textData = data.text;
         let maxRange = document.getElementById("maxRangeInput").value ? document.getElementById("maxRangeInput").value : 100,
-        node = new Node(xPos, yPos, radius, maxRange, textData);
+            node = new Node(xPos, yPos, radius, maxRange, textData);
         nodeObjectArray.push(node);
         node.show();
         nodeNamesToId[textData] = data.id;

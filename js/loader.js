@@ -186,8 +186,13 @@ function injectBody() {
         
         <div class="jumbotron customBgMetric my-4 py-5 px-5 container">
             <h1 class="titleText">Performance Measurement</h1> 
+            <div class="row">
+                <div class="col"><h4 class="text-center mtext mt-5 mb-4">Total Packets => <span class="text-warning" id="totalPackets">NaN</span></h4></div>
+                <div class="col"><h4 class="text-center mtext mt-5 mb-4">Packets Left to Send => <span class="text-warning" id="leftToSend">NaN</span></h4></div>
+            </div>
             <h4 class="text-center mtext mt-5 mb-4">Packet Delivery Loss => <span class="text-warning" id="lossRate">INF</span> %</h4>
             <h4 class="text-center mtext my-4">Route Discovery Time => <span class="text-warning" id="timeTaken">INF</span> seconds</h4>    
+            <h4 class="text-center mtext my-4">Average Time => <span class="text-warning" id="avgTime">Unknown</span> seconds</h4>    
         </div>
         
         <h1 class="titleText">Simulation Canvas</h1>
