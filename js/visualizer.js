@@ -141,7 +141,8 @@ function discoverRoute() {
 }
 
 function testDelivery() {
-    tracking = true;
+    tracking = false;
+    toggleTracking();
 
     let sourceNodeName = document.getElementById("msgSource").value;
     let destinationNodeName = document.getElementById("msgDestination").value;
@@ -151,7 +152,7 @@ function testDelivery() {
     let successFullyDelivered = 0;
     let deliveryTime = [];
     document.getElementById('totalPackets').textContent = maximumAllowedPacket.toString();
-
+    let totalTime = 0;
     for (let packetNumber = 0; packetNumber < maximumAllowedPacket; packetNumber++) {
         $.get('http://localhost:8000/discoverRoute/', {
             sourceId: sourceNodeName,
@@ -161,7 +162,6 @@ function testDelivery() {
         }).done(response => {
             discoverRouteData = response.RouteData;
 
-            // printToLog(discoverRouteData)
             function draw() {
                 clear();
                 background(color(bg.red, bg.green, bg.blue));
@@ -174,19 +174,20 @@ function testDelivery() {
             successFullyDelivered++;
             printToLog(`[+] Path Found:  ${response.found}`, 'text-success');
             printToLog(`[+] Time Taken:  ${response.timeTaken} seconds`, 'text-warning');
-            document.getElementById('lossRate').textContent = ((maximumAllowedPacket - successFullyDelivered) / maximumAllowedPacket) * 100;
+
+            document.getElementById('lossRate').textContent = (((maximumAllowedPacket - successFullyDelivered) / maximumAllowedPacket) * 100).toString();
             document.getElementById('timeTaken').textContent = response.timeTaken;
             deliveryTime.push(response.timeTaken);
 
             document.getElementById('leftToSend').textContent = (maximumAllowedPacket - packetNumber - 1).toString();
-            let totalTime = 0;
+
             deliveryTime.forEach(item => {
                 totalTime += item
             })
-            document.getElementById('avgTime').textContent = totalTime / deliveryTime.length;
+            document.getElementById('avgTime').textContent = (totalTime / deliveryTime.length).toString();
 
         }).fail(response => {
-            document.getElementById('lossRate').textContent = ((maximumAllowedPacket - successFullyDelivered) / maximumAllowedPacket) * 100;
+            document.getElementById('lossRate').textContent = (((maximumAllowedPacket - successFullyDelivered) / maximumAllowedPacket) * 100).toString();
             document.getElementById('leftToSend').textContent = (maximumAllowedPacket - packetNumber - 1).toString();
             console.log(successFullyDelivered)
             discoverRouteData = []
@@ -250,7 +251,7 @@ function realtimeMovement() {
         nodeObjectArray[i].y = stateNodeData[i].yPos;
     }
 
-    if(tracking) {
+    if (tracking) {
         // discoverRoute()
         drawRoute();
     }

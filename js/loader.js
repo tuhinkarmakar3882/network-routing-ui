@@ -177,7 +177,7 @@ function injectBody() {
                     </button>
                 </div>
                 <div class="col-12 col-md-6 col-lg-4 text-center my-3">
-                    <button class="btn customBtn" id="enableDynamicTopologyBtn" onclick="toggleDynamicTopology()">
+                    <button class="btn customBtn" id="enableDynamicTopologyBtn" disabled onclick="toggleDynamicTopology()">
                         Turn on Dynamic Topology
                     </button>
                 </div>
