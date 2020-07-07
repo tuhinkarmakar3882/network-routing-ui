@@ -172,8 +172,8 @@ function injectBody() {
                     </button>
                 </div>
                 <div class="col-12 col-md-6 col-lg-4 text-center my-3">
-                    <button class="btn customBtn" id="sendMessagePackets" onclick="startMessageListener()">
-                        Start Message Listeners
+                    <button class="btn customBtn" id="toggleTracking" onclick="toggleTracking()">
+                        Start Tracking
                     </button>
                 </div>
                 <div class="col-12 col-md-6 col-lg-4 text-center my-3">

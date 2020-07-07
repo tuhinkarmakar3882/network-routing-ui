@@ -3,6 +3,7 @@ let outputLog;
 let dynamicTopologyGenerationMode = false, realtimeMovementOn = false, offset = 80, dynamicTopologyGenerator;
 let topologyGenerationDelay = 2000;
 let specialNodes = [], nodeObjectArray = [];
+let tracking = false
 
 const bg = {
     red: 170,
@@ -109,6 +110,8 @@ function discoverRoute() {
     let sourceNodeName = document.getElementById("source").value;
     let destinationNodeName = document.getElementById("destination").value;
     // printToLog(`[+] Discovering Routes from ${sourceNodeName} to ${destinationNodeName}`)
+    tracking = false;
+    toggleTracking()
 
     $.get('http://localhost:8000/discoverRoute/', {
         sourceId: sourceNodeName,
@@ -138,13 +141,15 @@ function discoverRoute() {
 }
 
 function testDelivery() {
+    tracking = true;
+
     let sourceNodeName = document.getElementById("msgSource").value;
     let destinationNodeName = document.getElementById("msgDestination").value;
     let maximumAllowedPacket = document.getElementById("packetsCount").value ? document.getElementById("packetsCount").value : 0;
 
     let successFullyDelivered = 0;
-    let deliveryTime = []
-    document.getElementById('totalPackets').textContent = maximumAllowedPacket;
+    let deliveryTime = [];
+    document.getElementById('totalPackets').textContent = maximumAllowedPacket.toString();
 
     for (let packetNumber = 0; packetNumber < maximumAllowedPacket; packetNumber++) {
         $.get('http://localhost:8000/discoverRoute/', {
@@ -186,11 +191,11 @@ function testDelivery() {
         });
     }
 
-
 }
 
-function startMessageListener() {
-    alert("Set up backend.")
+function toggleTracking() {
+    tracking = !tracking;
+    document.getElementById('toggleTracking').textContent = tracking ? 'Stop Tracking' : 'Start Tracking';
 }
 
 function toggleDynamicTopology() {
@@ -242,7 +247,9 @@ function realtimeMovement() {
         nodeObjectArray[i].y = stateNodeData[i].yPos;
     }
 
-    discoverRoute()
+    if(tracking) {
+        discoverRoute()
+    }
 
 }
 
@@ -260,7 +267,6 @@ function setup() {
 }
 
 function draw() {
-
     clear()
     if (realtimeMovementOn) {
         realtimeMovement();
@@ -286,7 +292,9 @@ function draw() {
             }
         }
     });
-    drawRoute()
+    if (tracking) {
+        drawRoute();
+    }
 }
 
 function drawNodes() {
