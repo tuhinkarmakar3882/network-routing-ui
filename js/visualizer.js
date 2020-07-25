@@ -301,8 +301,8 @@ function draw() {
         }
     });
     if (tracking) {
-        discoverRoute();
-        // drawRoute();
+        // discoverRoute();
+        drawRoute();
     }
 }
 
