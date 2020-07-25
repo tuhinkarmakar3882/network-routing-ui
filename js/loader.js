@@ -81,17 +81,17 @@ function injectBody() {
                         <div class="col-lg-6 col-12 my-2">
                             <div class="card shadow ">
                                 <div class="card-header">
-                                    <p class="text-center mb-0">Topology Generation</p>
+                                    <p class="text-center mb-0">Start Scanning</p>
                                 </div>
                                 <div class="card-body ">
-                                    <label class="mb-3 lead" for="totalIterationsInput">Number of Iterations:</label>
-                                    <input class="form-control form-control-sm mb-3" type="text" id="totalIterationsInput"
-                                           placeholder="Higher the Number => Higher the Complexity"/>
-                                    <p class="lead">This will Randomly Generate Path between Nodes.</p>
+                                    <label class="mb-3 lead" for="maxRangeInput">Scanning Range:</label>
+                                    <input class="form-control form-control-sm mb-3" type="text" id="maxRangeInput"
+                                           placeholder="e.g. 250"/>
+                                    <p class="lead">This will Start Scanning For Other ADHOC Nodes</p>
                                 </div>
                                 <div class="card-footer text-center">
-                                    <button onclick="generateTopology()" class="btn customBtn " type="button">Generate Static
-                                        Topology!
+                                    <button onclick="scanForNodes()" class="btn customBtn " type="button">
+                                        Start Scanning
                                     </button>
                                 </div>
                             </div>
@@ -172,22 +172,31 @@ function injectBody() {
                     </button>
                 </div>
                 <div class="col-12 col-md-6 col-lg-4 text-center my-3">
-                    <button class="btn customBtn" id="sendMessagePackets" onclick="startMessageListener()">
-                        Start Message Listeners
+                    <button class="btn customBtn" id="toggleTracking" onclick="toggleTracking()">
+                        Start Tracking
                     </button>
                 </div>
                 <div class="col-12 col-md-6 col-lg-4 text-center my-3">
-                    <button class="btn customBtn" id="enableDynamicTopologyBtn" onclick="toggleDynamicTopology()">Turn on
-                        Dynamic
-                        Topology
+                    <button class="btn customBtn" id="enableDynamicTopologyBtn" disabled onclick="toggleDynamicTopology()">
+                        Turn on Dynamic Topology
                     </button>
                 </div>
             </div>
         </div>
         
+        <div class="jumbotron customBgMetric my-4 py-5 px-5 container">
+            <h1 class="titleText">Performance Measurement</h1> 
+            <div class="row">
+                <div class="col"><h4 class="text-center mtext mt-5 mb-4">Total Packets => <span class="text-warning" id="totalPackets">NaN</span></h4></div>
+                <div class="col"><h4 class="text-center mtext mt-5 mb-4">Packets Left to Send => <span class="text-warning" id="leftToSend">NaN</span></h4></div>
+            </div>
+            <h4 class="text-center mtext mt-5 mb-4">Packet Delivery Loss => <span class="text-warning" id="lossRate">INF</span> %</h4>
+            <h4 class="text-center mtext my-4">Route Discovery Time => <span class="text-warning" id="timeTaken">INF</span> seconds</h4>    
+            <h4 class="text-center mtext my-4">Average Time => <span class="text-warning" id="avgTime">Unknown</span> seconds</h4>    
+        </div>
+        
         <h1 class="titleText">Simulation Canvas</h1>
         
-
     `
     loadJS("js/p5.min.js");
     loadJS("js/controlSet.js");

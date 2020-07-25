@@ -51,6 +51,7 @@ function injectReference() {
                   <li class="lead">Rajarshi Biswas</li>  
                   <li class="lead">Raya Datta</li>  
                 </ul>
+                <span>Under the Supervision of Mr. Subhrapratim Nath</span>
             </p>
         `
     document.body.appendChild(referenceDiv)

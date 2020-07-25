@@ -2,7 +2,9 @@ let stateNodeData, statePathData, discoverRouteData, nodeNamesToId = {}, idToNod
 let outputLog;
 let dynamicTopologyGenerationMode = false, realtimeMovementOn = false, offset = 80, dynamicTopologyGenerator;
 let topologyGenerationDelay = 2000;
-let specialNodes = [];
+let specialNodes = [], nodeObjectArray = [];
+let tracking = false
+
 const bg = {
     red: 170,
     green: 170,
@@ -24,6 +26,48 @@ const specialNodeFill = {
     blue: 127,
 }
 
+
+class Node {
+    constructor(x, y, r, maxRange, textData) {
+        this.x = x;
+        this.y = y;
+        this.r = r;
+        this.range = 0;
+        this.maxRange = maxRange;
+        this.connection = 0;
+        this.textData = textData;
+    }
+
+    runScan() {
+        if (this.range > this.maxRange) {
+            this.range = 0;
+        }
+        this.range++;
+    }
+
+    show() {
+        strokeWeight(1);
+        noFill();
+        circle(this.x, this.y, this.range);
+
+        if (isASpecialNodes(this.x, this.y)) {
+            fill(color(specialNodeFill.red, specialNodeFill.green, specialNodeFill.blue));
+        } else {
+            fill(color(defaultNodeFill.red, defaultNodeFill.green, defaultNodeFill.blue));
+        }
+
+        circle(this.x, this.y, this.r);
+        this.runScan();
+        fill(color(0, 0, 0));
+        stroke(0)
+        strokeWeight(0);
+        textSize(11);
+        textStyle(BOLD);
+        text(this.textData, this.x, this.y);
+    }
+}
+
+
 function createNodes() {
     let nodeInput = document.getElementById('nodeInput');
 
@@ -43,65 +87,119 @@ function createNodes() {
 
         draw();
         printToLog(`[+] ${response.message}`, 'text-success');
+        discoverRouteData = []
     }).fail(response => {
         printToLog(`[!] ${response.responseJSON['message']}`, 'text-danger')
     });
 }
 
-function generateTopology() {
-    let totalIterations = document.getElementById('totalIterationsInput');
-    printToLog(`[+] Generating Topology... Iterations = ${totalIterations.value ? totalIterations.value : 'undefined'}`);
-    $.get('http://localhost:8000/generateTopology', {
-        totalIterations: totalIterations.value
-    }).done(response => {
-        statePathData = response.pathData;
-
-        function draw() {
-            clear();
-            background(color(bg.red, bg.green, bg.blue));
-            drawTopology()
-            drawNodes();
+function scanForNodes() {
+    let maxRange = document.getElementById("maxRangeInput").value;
+    printToLog(`[+] Initializing Scan with range = ${maxRange ? maxRange : "undefined"}`, "text-success")
+    if (maxRange) {
+        for (let node of nodeObjectArray) {
+            node.maxRange = maxRange
         }
-
-        draw();
-        printToLog(`[+] ${response.message}`, 'text-success');
-    }).fail(response => {
-        printToLog(`[!] ${response.responseJSON['message']}`, 'text-danger')
-    });
+        printToLog("[+] Range Update Successful.", "text-success");
+    } else {
+        printToLog("[!] Invalid Range.", "text-danger");
+    }
 }
 
 function discoverRoute() {
-    let sourceNodeId = document.getElementById("source").value;
-    let destinationNodeId = document.getElementById("destination").value;
-    printToLog(`[+] Discovering Routes from ${nodeNamesToId[sourceNodeId]} to ${nodeNamesToId[destinationNodeId]}`)
+    let sourceNodeName = document.getElementById("source").value;
+    let destinationNodeName = document.getElementById("destination").value;
+    // printToLog(`[+] Discovering Routes from ${sourceNodeName} to ${destinationNodeName}`)
+    tracking = false;
+    toggleTracking()
 
-    $.get('http://localhost:8000/discoverRoute', {
-        sourceId: nodeNamesToId[sourceNodeId],
-        destinationId: nodeNamesToId[destinationNodeId]
+    $.get('http://localhost:8000/discoverRoute/', {
+        sourceId: sourceNodeName,
+        destinationId: destinationNodeName,
+        maxRange: document.getElementById("maxRangeInput").value ? document.getElementById("maxRangeInput").value : 100,
+        nodeData: JSON.stringify(stateNodeData),
     }).done(response => {
         discoverRouteData = response.RouteData;
 
+        // printToLog(discoverRouteData)
         function draw() {
             clear();
             background(color(bg.red, bg.green, bg.blue));
-            drawTopology();
-            drawRoute();
+            // drawTopology();
+            // drawRoute();
             drawNodes();
         }
 
         draw();
-        printToLog(`[+] ${response.message}`, 'text-success');
+        // printToLog(`[+] ${response.message}`, 'text-success');
+        printToLog(`[+] Path Found:  ${response.found}`, 'text-success');
+        printToLog(`[+] Time Taken:  ${response.timeTaken} seconds`, 'text-warning');
+        document.getElementById('timeTaken').textContent = response.timeTaken;
     }).fail(response => {
         printToLog(`[!] ${response.responseJSON['message']}`, 'text-danger')
     });
 }
 
 function testDelivery() {
-    alert("Set Up BackEnd!")
+    tracking = false;
+    toggleTracking();
+
+    let sourceNodeName = document.getElementById("msgSource").value;
+    let destinationNodeName = document.getElementById("msgDestination").value;
+    let maximumAllowedPacket = document.getElementById("packetsCount").value ? document.getElementById("packetsCount").value : 0;
+
+    discoverRouteData = []
+    let successFullyDelivered = 0;
+    let deliveryTime = [];
+    document.getElementById('totalPackets').textContent = maximumAllowedPacket.toString();
+    let totalTime = 0;
+    for (let packetNumber = 0; packetNumber < maximumAllowedPacket; packetNumber++) {
+        $.get('http://localhost:8000/discoverRoute/', {
+            sourceId: sourceNodeName,
+            destinationId: destinationNodeName,
+            maxRange: document.getElementById("maxRangeInput").value ? document.getElementById("maxRangeInput").value : 100,
+            nodeData: JSON.stringify(stateNodeData),
+        }).done(response => {
+            discoverRouteData = response.RouteData;
+
+            function draw() {
+                clear();
+                background(color(bg.red, bg.green, bg.blue));
+                // drawTopology();
+                // drawRoute();
+                drawNodes();
+            }
+
+            draw();
+            successFullyDelivered++;
+            printToLog(`[+] Path Found:  ${response.found}`, 'text-success');
+            printToLog(`[+] Time Taken:  ${response.timeTaken} seconds`, 'text-warning');
+
+            document.getElementById('lossRate').textContent = (((maximumAllowedPacket - successFullyDelivered) / maximumAllowedPacket) * 100).toString();
+            document.getElementById('timeTaken').textContent = response.timeTaken;
+            deliveryTime.push(response.timeTaken);
+
+            document.getElementById('leftToSend').textContent = (maximumAllowedPacket - packetNumber - 1).toString();
+
+            deliveryTime.forEach(item => {
+                totalTime += item
+            })
+            document.getElementById('avgTime').textContent = (totalTime / deliveryTime.length).toString();
+
+        }).fail(response => {
+            document.getElementById('lossRate').textContent = (((maximumAllowedPacket - successFullyDelivered) / maximumAllowedPacket) * 100).toString();
+            document.getElementById('leftToSend').textContent = (maximumAllowedPacket - packetNumber - 1).toString();
+            console.log(successFullyDelivered)
+            discoverRouteData = []
+            printToLog(`[!] ${response.responseJSON['message']}`, 'text-danger')
+        });
+    }
+
 }
 
-function startMessageListener() {
-    alert("Set up backend.")
+function toggleTracking() {
+    tracking = !tracking;
+    document.getElementById('toggleTracking').textContent = tracking ? 'Stop Tracking' : 'Start Tracking';
 }
 
 function toggleDynamicTopology() {
@@ -126,10 +224,9 @@ function enableRealtimeMovement() {
 }
 
 function realtimeMovement() {
-    clear();
     background(color(bg.red, bg.green, bg.blue));
     for (let data in stateNodeData) {
-        stateNodeData[data].xPos = stateNodeData[data].xPos + random(-10, 10);
+        stateNodeData[data].xPos = stateNodeData[data].xPos + random(-7, 7);
         stateNodeData[data].yPos = stateNodeData[data].yPos - random(-7, 7);
 
         if (stateNodeData[data].yPos < 20) {
@@ -148,8 +245,20 @@ function realtimeMovement() {
             stateNodeData[data].xPos = width - 20;
         }
     }
-    drawTopology();
-    drawNodes();
+
+    for (var i = stateNodeData.length - 1; i >= 0; i--) {
+        nodeObjectArray[i].x = stateNodeData[i].xPos;
+        nodeObjectArray[i].y = stateNodeData[i].yPos;
+    }
+
+    if (tracking) {
+        // discoverRoute()
+        drawRoute();
+    }
+
+    // if(displayRoute) {
+    //     drawRoute()
+    // }
 }
 
 function isASpecialNodes(xPos, yPos) {
@@ -166,8 +275,34 @@ function setup() {
 }
 
 function draw() {
+    clear()
     if (realtimeMovementOn) {
         realtimeMovement();
+    }
+    nodeObjectArray.forEach(node => {
+        node.show()
+        x = node.x
+        y = node.y
+        range = node.range
+        stroke(0)
+        strokeWeight(0)
+        fill(0)
+        for (let node1 of nodeObjectArray) {
+            if (node !== node1) {
+                let distance = Math.round(dist(x, y, node1.x, node1.y))
+                if (distance < range) {
+                    textSize(12)
+                    text(distance, (x + node1.x) / 2, (y + node1.y) / 2)
+                    strokeWeight(1)
+                    line(x, y, node1.x, node1.y)
+                    node1.connections++;
+                }
+            }
+        }
+    });
+    if (tracking) {
+        discoverRoute();
+        // drawRoute();
     }
 }
 
@@ -176,31 +311,24 @@ function drawNodes() {
     nodeNamesToId = {}
     idToNodeNames = {}
     let radius = 35;
-    for (let data in stateNodeData) {
-        strokeWeight(1);
-        let xPos = stateNodeData[data].xPos;
-        let yPos = stateNodeData[data].yPos;
-        let textData = stateNodeData[data].text;
+    nodeObjectArray = []
 
-        if (isASpecialNodes(xPos, yPos)) {
-            fill(color(specialNodeFill.red, specialNodeFill.green, specialNodeFill.blue));
-        } else {
-            fill(color(defaultNodeFill.red, defaultNodeFill.green, defaultNodeFill.blue));
-        }
-        circle(xPos, yPos, radius);
-        fill(color(0, 0, 0));
-        strokeWeight(0);
-        textSize(11);
-        textStyle(BOLD);
-        text(textData, xPos, yPos + 4);
-        nodeNamesToId[textData] = stateNodeData[data].id;
-        idToNodeNames[stateNodeData[data].id] = textData
+    for (let data of stateNodeData) {
+        let xPos = data.xPos;
+        let yPos = data.yPos;
+        let textData = data.text;
+        let maxRange = document.getElementById("maxRangeInput").value ? document.getElementById("maxRangeInput").value : 100,
+            node = new Node(xPos, yPos, radius, maxRange, textData);
+        nodeObjectArray.push(node);
+        node.show();
+        nodeNamesToId[textData] = data.id;
+        idToNodeNames[data.id] = textData
     }
     specialNodes = [];
+
 }
 
 function drawTopology() {
-
     for (let data in statePathData) {
         strokeWeight(1);
         stroke(color(50, 50, 50));
@@ -263,7 +391,7 @@ function drawRoute() {
 
         strokeWeight(5);
         stroke(color(highLightedRoute.red, highLightedRoute.green, highLightedRoute.blue));
-        printToLog(`Drawing Line => ${idToNodeNames[sourceId]} ${idToNodeNames[destinationId]}`, 'text-white')
+        // printToLog(`Drawing Line => ${idToNodeNames[sourceId]} ${idToNodeNames[destinationId]}`, 'text-white')
         line(sourceXPos, sourceYPos, destinationXPos, destinationYPos);
     }
 

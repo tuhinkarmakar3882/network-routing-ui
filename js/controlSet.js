@@ -1,20 +1,13 @@
-// let cards = document.getElementsByClassName("collapsible");
-// for (let card of cards) {
-//     card.addEventListener('click', () => {
-//         if (card.style.maxHeight === '61px') {
-//             card.style.maxHeight = '460px';
-//         } else {
-//             card.style.maxHeight = '61px';
-//         }
-//     });
-// }
-
 function printToLog(message, classNames) {
     if (!outputLog)
         outputLog = document.getElementById("logger")
+
+    if(outputLog.innerHTML.length > 10000){
+        outputLog.innerHTML = ``
+    }
     outputLog.innerHTML += `
-        <br/>
-        <span class="${classNames ? classNames : 'text-muted'}">${message}</span>
+         <br/>
+         <span class="${classNames ? classNames : 'text-muted'}">${message}</span>
     `;
 }
 
